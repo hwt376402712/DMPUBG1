@@ -156,7 +156,7 @@ public class GunFpsCalculation {
                         }
                     }
                 }
-                // 如果检测到配件但是没有匹配字段，设置默认
+                // 如果检测到配件但是没有匹配字典，设置默认
                 if(!ifDict){
                     //设置当前枪的编码，枪名先设置机瞄,默认抖动
                     if (gunIndex == 1) {
@@ -203,7 +203,7 @@ public class GunFpsCalculation {
                             }
                         }
                     }
-                    // 如果检测到配件但是机瞄也没有匹配字段，设置默认
+                    // 如果没检测到配件但是机瞄也没有匹配字典，设置默认fps
                     if(!ifDict){
                         //设置当前枪的编码，枪名先设置机瞄,默认抖动
                         if (gunIndex == 1) {

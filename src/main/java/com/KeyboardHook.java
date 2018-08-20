@@ -91,16 +91,11 @@ public class KeyboardHook implements Runnable {
                             }
 
                         }
-                        if (event.vkCode == Integer.parseInt(KeyCodeEnuam.TAB.getKeyCode()) && wParam.intValue() == 257) {
-                            checkPackage();
 
-
-
-                        }
                         if (event.vkCode == Integer.parseInt(KeyCodeEnuam.TAB.getKeyCode()) && wParam.intValue() == 256) {
 
                             resultIfvalid = false;
-
+                            checkPackage();
 
                         }
                         // 按下ESC退出
@@ -164,11 +159,7 @@ public class KeyboardHook implements Runnable {
         gun1Search[4] = new Variant(Joiner.on("|").join(GunConstantName.gunNameList));
         gun1Search[5] = new Variant("ffffff-000000");
         gun1Search[6] = new Variant(0.7);
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
         String gun1result = Constant.getDm().invoke("FindStrFastEx", gun1Search).toString();
 
         gun1Search[0] = new Variant(1349);
@@ -308,6 +299,11 @@ public class KeyboardHook implements Runnable {
                     while (isInthePackage && resultIfvalid) {
                         checkGun();
 
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
 
                 }
