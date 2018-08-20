@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @Author: huangwentao
@@ -53,7 +54,7 @@ public class KeyboardHook implements Runnable {
                         var[0] = new Variant(dm);
                         var[1] = new Variant("normal");
                         var[2] = new Variant("dx");
-                        var[3] = new Variant("normal");
+                        var[3] = new Variant("dx");
                         var[4] = new Variant(0);
 
                         long i = Constant.getDm().invoke("BindWindow", var).getInt();
@@ -105,7 +106,25 @@ public class KeyboardHook implements Runnable {
                         if (event.vkCode == Integer.parseInt(KeyCodeEnuam.TAB.getKeyCode()) && wParam.intValue() == 256) {
 
                             resultIfvalid = false;
-                            checkPackage();
+
+
+                        }
+                        if (event.vkCode == Integer.parseInt(KeyCodeEnuam.TAB.getKeyCode()) && wParam.intValue() == 257) {
+
+                            resultIfvalid = false;
+
+                            new Thread(){
+                                public void run(){
+                                    try {
+                                        Thread.sleep(300);
+                                        checkPackage();
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }.start();
+
+
 
                         }
                         // 按下ESC退出
@@ -164,7 +183,7 @@ public class KeyboardHook implements Runnable {
         Variant[] gun1Search = new Variant[7];
         gun1Search[0] = new Variant(1349);
         gun1Search[1] = new Variant(116);
-        gun1Search[2] = new Variant(1465);
+        gun1Search[2] = new Variant(1511);
         gun1Search[3] = new Variant(185);
         gun1Search[4] = new Variant(Joiner.on("|").join(GunConstantName.gunNameList));
         gun1Search[5] = new Variant("ffffff-000000");
@@ -177,7 +196,7 @@ public class KeyboardHook implements Runnable {
 
         gun1Search[0] = new Variant(1349);
         gun1Search[1] = new Variant(346);
-        gun1Search[2] = new Variant(1472);
+        gun1Search[2] = new Variant(1511);
         gun1Search[3] = new Variant(391);
 
         String gun2result = Constant.getDm().invoke("FindStrFastEx", gun1Search).toString();
@@ -286,26 +305,26 @@ public class KeyboardHook implements Runnable {
     }
 
 
-    public void checkPackage() {
+    public  void checkPackage()  {
+
 
 
         resultIfvalid = false;
-        try {
-            Thread.sleep(200);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
         // 检查是否在背包界面
         Variant[] packageCheck = new Variant[8];
-        packageCheck[0] = new Variant(1667);
-        packageCheck[1] = new Variant(22);
-        packageCheck[2] = new Variant(1766);
-        packageCheck[3] = new Variant(75);
-        packageCheck[4] = new Variant(new File(this.getClass().getClassLoader().getResource("KILL.bmp").getPath()).getPath());
+        packageCheck[0] = new Variant(466);
+        packageCheck[1] = new Variant(95);
+        packageCheck[2] = new Variant(517);
+        packageCheck[3] = new Variant(153);
+        packageCheck[4] = new Variant(new File(this.getClass().getClassLoader().getResource("LEIXING.bmp").getPath()).getPath());
         packageCheck[5] = new Variant("000000");
         packageCheck[6] = new Variant(0.9);
         packageCheck[7] = new Variant(1);
         String gun1result = Constant.getDm().invoke("FindPicEx", packageCheck).toString();
+
+
+
 
         if (null != gun1result && !"".equals(gun1result)) {
             System.out.println("打开了背包");
@@ -315,13 +334,14 @@ public class KeyboardHook implements Runnable {
             new Thread() {
                 public void run() {
                     while (isInthePackage && resultIfvalid) {
-                        checkGun();
-
                         try {
-                            Thread.sleep(100);
+                            Thread.sleep(300);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
+                        checkGun();
+
+
                     }
 
                 }
@@ -331,10 +351,11 @@ public class KeyboardHook implements Runnable {
             isInthePackage = false;
             resultIfvalid = true;
             // 关闭了背包,并且有枪的情况下首次开始OCR取准心得rgb
+
             if (ifInGameMain && (null == zhunxinColor) && (CurrentBody.gun1Exist || CurrentBody.gun2Exist)) {
                 Variant[] color = new Variant[2];
-                color[0] = new Variant(1340);
-                color[1] = new Variant(89);
+                color[0] = new Variant(959);
+                color[1] = new Variant(539);
                 String rgb = Constant.getDm().invoke("GetColor", color).toString();
                 zhunxinColor = rgb;
             }
