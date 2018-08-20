@@ -15,11 +15,13 @@ public class CurrentBody {
     public volatile static BigDecimal gun1FpsRise = new BigDecimal(1);
     public volatile static String gun1code = "";
     public volatile static String gun1Name = "";
+    public volatile static boolean gun1Exist = false;
 
     public volatile static long gun2Fps = 0;
     public volatile static BigDecimal gun2FpsRise = new BigDecimal(1);
     public volatile static String gun2code = "";
     public volatile static String gun2Name = "";
+    public volatile static boolean gun2Exist = false;
 
 
     public volatile static Integer currentGun;
@@ -81,18 +83,14 @@ public class CurrentBody {
                 return new BigDecimal(0);
             } else {
                 if (1 == currentGun) {
-                    if (0 != gun1Fps) {
-                        return gun1FpsRise;
-                    } else {
-                        return gun2FpsRise;
-                    }
+
+                    return gun1FpsRise;
+
 
                 } else if (2 == currentGun) {
-                    if (0 != gun2Fps) {
-                        return gun2FpsRise;
-                    } else {
-                        return gun1FpsRise;
-                    }
+
+                    return gun2FpsRise;
+
                 }
             }
         }

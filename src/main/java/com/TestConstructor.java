@@ -23,7 +23,7 @@ public class TestConstructor {
             e.printStackTrace();
         }
         Variant[] shubiao = new Variant[5];
-        shubiao[0] = new Variant(459498);
+        shubiao[0] = new Variant(132104);
         shubiao[1] = new Variant("normal");
         shubiao[2] = new Variant("dx");
         shubiao[3] = new Variant("normal");
@@ -39,19 +39,19 @@ public class TestConstructor {
 
 
 //
-        Variant[] shubiao1 = new Variant[8];
-        shubiao1[0] = new Variant(1587);
-        shubiao1[1] = new Variant(150);
-        shubiao1[2] = new Variant(1633);
-        shubiao1[3] = new Variant(195);
-        shubiao1[4] = new Variant(new File(this.getClass().getClassLoader().getResource("HD.bmp").getPath()).getPath());
-        shubiao1[5] = new Variant("000000");
-        shubiao1[6] = new Variant(0.5);
-        shubiao1[7] = new Variant(1);
-
-
-        String s = activeDm.invoke("FindPicEx", shubiao1).toString();
-        System.out.print(s);
+//        Variant[] shubiao1 = new Variant[8];
+//        shubiao1[0] = new Variant(1587);
+//        shubiao1[1] = new Variant(150);
+//        shubiao1[2] = new Variant(1633);
+//        shubiao1[3] = new Variant(195);
+//        shubiao1[4] = new Variant(new File(this.getClass().getClassLoader().getResource("HD.bmp").getPath()).getPath());
+//        shubiao1[5] = new Variant("000000");
+//        shubiao1[6] = new Variant(0.5);
+//        shubiao1[7] = new Variant(1);
+//
+//
+//        String s = activeDm.invoke("FindPicEx", shubiao1).toString();
+//        System.out.print(s);
 
 //
 //        Variant[] ziku = new Variant[2];
@@ -74,6 +74,18 @@ public class TestConstructor {
 
 ////=
 //
+
+
+
+        Variant[] color = new Variant[2];
+        color[0] = new Variant(1340);
+        color[1] = new Variant(89);
+        String rgb = activeDm.invoke("GetColor", color).toString();
+
+        System.out.print(rgb);
+
+
+
        Variant[] capture = new Variant[5];
         capture[0] = new Variant(1587);
         capture[1] = new Variant(150);

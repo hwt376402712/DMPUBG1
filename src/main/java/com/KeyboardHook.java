@@ -28,6 +28,10 @@ public class KeyboardHook implements Runnable {
 
     public static volatile boolean resultIfvalid = false;// 背包存在延迟，校验是否存在枪支时很可能已经关闭了背包(为isInthePackage加锁)
 
+    public static volatile boolean ifInGameMain = false;//是否已经进入了游戏主画面，为准信的ocr取色作用
+
+    public static volatile String zhunxinColor = null;//准心得颜色，来判断是否在腰射或者肩射
+
 
     Thread thread1;
 
@@ -78,16 +82,22 @@ public class KeyboardHook implements Runnable {
 
                         // 切换枪
                         if (event.vkCode == 49 && wParam.intValue() == 257) {
-                            if(CurrentBody.gun1Fps != 0){
+                            if (CurrentBody.gun1Exist) {
                                 CurrentBody.currentGun = 1;
                                 System.out.println("切换当前枪支1");
+                            } else {
+                                System.out.println("枪支1不存在，切换到枪支2");
+                                CurrentBody.currentGun = 2;
                             }
 
                         }
                         if (event.vkCode == 50 && wParam.intValue() == 257) {
-                            if(CurrentBody.gun2Fps != 0){
+                            if (CurrentBody.gun2Exist) {
                                 CurrentBody.currentGun = 2;
                                 System.out.println("切换当前枪支2");
+                            } else {
+                                System.out.println("枪支2不存在，切换到枪支1");
+                                CurrentBody.currentGun = 1;
                             }
 
                         }
@@ -145,7 +155,7 @@ public class KeyboardHook implements Runnable {
     }
 
 
-    public  void checkGun() {
+    public void checkGun() {
         System.out.println("开始检查枪支");
         Variant[] ziku = new Variant[2];
         ziku[0] = new Variant(0);
@@ -161,6 +171,9 @@ public class KeyboardHook implements Runnable {
         gun1Search[6] = new Variant(0.7);
 
         String gun1result = Constant.getDm().invoke("FindStrFastEx", gun1Search).toString();
+        if (null != gun1result && !"".equals(gun1result)) {
+            CurrentBody.gun1Exist = true;
+        }
 
         gun1Search[0] = new Variant(1349);
         gun1Search[1] = new Variant(346);
@@ -168,7 +181,9 @@ public class KeyboardHook implements Runnable {
         gun1Search[3] = new Variant(391);
 
         String gun2result = Constant.getDm().invoke("FindStrFastEx", gun1Search).toString();
-
+        if (null != gun2result && !"".equals(gun2result)) {
+            CurrentBody.gun2Exist = true;
+        }
 
         if ((null != gun1result && !"".equals(gun1result)) || (null != gun2result && !"".equals(gun2result))) {
             System.out.print("包裹中存在枪支！");
@@ -243,24 +258,26 @@ public class KeyboardHook implements Runnable {
             }
 
 
-        } else {
+        }
+        if (isInthePackage && resultIfvalid) {
+
             // 没检查到枪支需要清空fps
-            if(isInthePackage && resultIfvalid){
-                if(null == gun1result || "".equals(gun1result)){
-                    System.out.println("未检查到枪支1");
-                    CurrentBody.gun1Fps = 0;
-                    CurrentBody.gun1Name = "";
-                    CurrentBody.gun1code = "";
 
-                }
-                 if(null == gun2result || "".equals(gun2result)){
-                    System.out.println("未检查到枪支2");
-                    CurrentBody.gun2Fps = 0;
-                    CurrentBody.gun2Name = "";
-                    CurrentBody.gun2code = "";
-                }
+            if (null == gun1result || "".equals(gun1result)) {
+                System.out.println("未检查到枪支1");
+                CurrentBody.gun1Fps = 0;
+                CurrentBody.gun1Name = "";
+                CurrentBody.gun1code = "";
+                CurrentBody.gun1Exist = false;
+
             }
-
+            if (null == gun2result || "".equals(gun2result)) {
+                System.out.println("未检查到枪支2");
+                CurrentBody.gun2Fps = 0;
+                CurrentBody.gun2Name = "";
+                CurrentBody.gun2code = "";
+                CurrentBody.gun2Exist = false;
+            }
 
 
         }
@@ -294,6 +311,7 @@ public class KeyboardHook implements Runnable {
             System.out.println("打开了背包");
             isInthePackage = true;
             resultIfvalid = true;
+            ifInGameMain = true;
             new Thread() {
                 public void run() {
                     while (isInthePackage && resultIfvalid) {
@@ -312,6 +330,14 @@ public class KeyboardHook implements Runnable {
             System.out.println("关闭了背包");
             isInthePackage = false;
             resultIfvalid = true;
+            // 关闭了背包,并且有枪的情况下首次开始OCR取准心得rgb
+            if (ifInGameMain && (null == zhunxinColor) && (CurrentBody.gun1Exist || CurrentBody.gun2Exist)) {
+                Variant[] color = new Variant[2];
+                color[0] = new Variant(1340);
+                color[1] = new Variant(89);
+                String rgb = Constant.getDm().invoke("GetColor", color).toString();
+                zhunxinColor = rgb;
+            }
         }
     }
 }

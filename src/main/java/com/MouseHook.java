@@ -45,7 +45,6 @@ public class MouseHook implements Runnable {
 
     static boolean start = false;
     static volatile boolean leftBtn = true;
-    static volatile boolean rightBtn = false;
     static Long anxia = null;
     static Long anxiaNow = null;
     static volatile long fps = 0;// 获取枪配件更改这个值
@@ -131,12 +130,9 @@ public class MouseHook implements Runnable {
                                 break;
                             case MouseHook.WM_RBUTTONDOWN:
                                 System.err.println("mouseRight down right button up, x=" + lParam.pt.x + " y=" + lParam.pt.y);
-                                rightBtn = true;
-                                startMouserMove();
                                 break;
                             case MouseHook.WM_RBUTTONUP:
                                 System.err.println("mouseRight up right button up, x=" + lParam.pt.x + " y=" + lParam.pt.y);
-                                rightBtn = false;
                                 anxia = null;
                                 anxiaNow = null;
                                 break;
@@ -187,29 +183,33 @@ public class MouseHook implements Runnable {
                 shubiao[0] = new Variant(0);
                 shubiao[1] = new Variant(fps);
                 System.out.println("当前FPS：" + fps+" 波动"+fpsRise);
-                while (leftBtn && rightBtn) {
+                while (leftBtn) {
 
                     if (null == anxia) {
                         anxia = System.currentTimeMillis();
                     } else {
                         if (System.currentTimeMillis() - anxia > 100) {
-                            if (null == anxiaNow) {
-                                anxiaNow = System.currentTimeMillis();
-                            } else {
-                                if (System.currentTimeMillis() - anxiaNow > 30) {
-                                    if (System.currentTimeMillis() - anxia < 700) {
-                                        shubiao[1] = shubiao[1];
-                                    }
-                                    if (System.currentTimeMillis() - anxia >= 700 && System.currentTimeMillis() - anxia < 1500) {
-                                        shubiao[1] = new Variant(fpsRise.multiply(new BigDecimal(fps)).longValue());
-                                    }
-                                    if (System.currentTimeMillis() - anxia >= 1500) {
-                                        shubiao[1] = new Variant(fpsRise.multiply(new BigDecimal(fps)).add(new BigDecimal(0.4)).longValue());
-                                    }
-                                    Constant.getDm().invoke("MoveR", shubiao);
+                            // 检测存在准心，若存在准心则不压枪
+                            if(!exitZhunxin()){
+                                if (null == anxiaNow) {
                                     anxiaNow = System.currentTimeMillis();
+                                } else {
+                                    if (System.currentTimeMillis() - anxiaNow > 30) {
+                                        if (System.currentTimeMillis() - anxia < 700) {
+                                            shubiao[1] = shubiao[1];
+                                        }
+                                        if (System.currentTimeMillis() - anxia >= 700 && System.currentTimeMillis() - anxia < 1500) {
+                                            shubiao[1] = new Variant(fpsRise.multiply(new BigDecimal(fps)).longValue());
+                                        }
+                                        if (System.currentTimeMillis() - anxia >= 1500) {
+                                            shubiao[1] = new Variant(fpsRise.multiply(new BigDecimal(fps)).add(new BigDecimal(0.4)).longValue());
+                                        }
+                                        Constant.getDm().invoke("MoveR", shubiao);
+                                        anxiaNow = System.currentTimeMillis();
+                                    }
                                 }
                             }
+
 
                         }
 
@@ -226,5 +226,13 @@ public class MouseHook implements Runnable {
             }
         };
         manThread.start();
+    }
+
+    // 是否存在准心，如果存在准心，则不压枪
+    private boolean exitZhunxin() {
+        if(null != KeyboardHook.zhunxinColor){
+
+        }
+        return false;
     }
 }
