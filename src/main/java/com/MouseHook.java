@@ -188,12 +188,14 @@ public class MouseHook implements Runnable {
                     if (null == anxia) {
                         anxia = System.currentTimeMillis();
                     } else {
+                        // 左键按下间隔小于0.1秒，单点，不压枪
                         if (System.currentTimeMillis() - anxia > 100) {
                             // 检测存在准心，若存在准心则不压枪
                             if(!exitZhunxin()){
                                 if (null == anxiaNow) {
                                     anxiaNow = System.currentTimeMillis();
                                 } else {
+                                    // 开枪的后半部分抖动递增，需要波动计算
                                     if (System.currentTimeMillis() - anxiaNow > 30) {
                                         if (System.currentTimeMillis() - anxia < 700) {
                                             shubiao[1] = shubiao[1];
