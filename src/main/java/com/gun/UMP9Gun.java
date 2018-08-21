@@ -1,15 +1,18 @@
 package com.gun;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VectorGun {
+/**
+ * @Author: huangwentao
+ * @Date: 2018/8/21 15:48
+ */
+public class UMP9Gun {
 
     public long jimiaoFps = 6;
 
 
-    public VectorGun(int gunIndex) {
+    public UMP9Gun(int gunIndex) {
 
         List<GunFpsEnum> miaoJinglist = new ArrayList<>();
         List<GunFpsEnum> headlist = new ArrayList<>();
@@ -24,7 +27,7 @@ public class VectorGun {
         headlist.add(GunFpsEnum.CFQXYIN);
 
 
-        GunFpsCalculation.FpsCalculation(gunIndex, jimiaoFps,"VECTOR", miaoJinglist, headlist, wolist, taillist);
+        GunFpsCalculation.FpsCalculation(gunIndex, jimiaoFps,"UMP9", miaoJinglist, headlist, wolist, taillist);
     }
 
 }

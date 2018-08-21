@@ -53,6 +53,38 @@ public class GunCheckRunnable  {
                 // 检查scar配件
                 new VectorGun(gunIndex);
                 break;
+            case GunConstantName.M16:
+                // 检查scar配件
+                new M16Gun(gunIndex);
+                break;
+            case GunConstantName.UMP9:
+                // 检查scar配件
+                new UMP9Gun(gunIndex);
+                break;
+            case GunConstantName.UZI:
+                // 检查scar配件
+                new UZIGun(gunIndex);
+                break;
+            case GunConstantName.TOM:
+                // 检查scar配件
+                new TOMXUNGun(gunIndex);
+                break;
+            case GunConstantName.S686:
+                // 检查scar配件
+                new S686Gun(gunIndex);
+                break;
+            case GunConstantName.ZIDONG:
+                // 检查scar配件
+                new ZIDONGGun(gunIndex);
+                break;
+            case GunConstantName.S12K:
+                // 检查scar配件
+                new S12KGun(gunIndex);
+                break;
+            case GunConstantName.QBU:
+                // 检查scar配件
+                new QBUGun(gunIndex);
+                break;
 
 
         }

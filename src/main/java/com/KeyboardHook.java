@@ -9,6 +9,7 @@ import com.sun.jna.platform.win32.WinDef.*;
 
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -113,8 +114,8 @@ public class KeyboardHook implements Runnable {
 
                             resultIfvalid = false;
 
-                            new Thread(){
-                                public void run(){
+                            new Thread() {
+                                public void run() {
                                     try {
                                         Thread.sleep(300);
                                         checkPackage();
@@ -124,6 +125,31 @@ public class KeyboardHook implements Runnable {
                                 }
                             }.start();
 
+
+                        }
+                        // pageup上调当前枪的fps
+                        if (event.vkCode == 33 && wParam.intValue() == 257) {
+
+                            upDownFps(1);
+
+
+                        }
+                        if (event.vkCode == 34 && wParam.intValue() == 257) {
+
+                            upDownFps(0);
+
+
+                        }
+                        // 方向上上调当前枪的fps波动
+                        if (event.vkCode == 38 && wParam.intValue() == 257) {
+
+                            upDownFpsRise(1);
+
+
+                        }
+                        if (event.vkCode == 40 && wParam.intValue() == 257) {
+
+                            upDownFpsRise(0);
 
 
                         }
@@ -244,6 +270,22 @@ public class KeyboardHook implements Runnable {
                             }
 
                             break;
+                        case "2":
+                            if (Integer.parseInt(index[2]) < 250) {
+                                new GunCheckRunnable(1, GunConstantName.M16).checkPeijian();
+                            } else {
+                                new GunCheckRunnable(2, GunConstantName.M16).checkPeijian();
+                            }
+
+                            break;
+                        case "3":
+                            if (Integer.parseInt(index[2]) < 250) {
+                                new GunCheckRunnable(1, GunConstantName.UMP9).checkPeijian();
+                            } else {
+                                new GunCheckRunnable(2, GunConstantName.UMP9).checkPeijian();
+                            }
+
+                            break;
                         case "4":
                             if (Integer.parseInt(index[2]) < 250) {
                                 new GunCheckRunnable(1, GunConstantName.VECTOR).checkPeijian();
@@ -266,6 +308,54 @@ public class KeyboardHook implements Runnable {
                                 new GunCheckRunnable(1, GunConstantName.AKM).checkPeijian();
                             } else {
                                 new GunCheckRunnable(2, GunConstantName.AKM).checkPeijian();
+                            }
+
+                            break;
+                        case "7":
+                            if (Integer.parseInt(index[2]) < 250) {
+                                new GunCheckRunnable(1, GunConstantName.UZI).checkPeijian();
+                            } else {
+                                new GunCheckRunnable(2, GunConstantName.UZI).checkPeijian();
+                            }
+
+                            break;
+                        case "8":
+                            if (Integer.parseInt(index[2]) < 250) {
+                                new GunCheckRunnable(1, GunConstantName.TOM).checkPeijian();
+                            } else {
+                                new GunCheckRunnable(2, GunConstantName.TOM).checkPeijian();
+                            }
+
+                            break;
+                        case "9":
+                            if (Integer.parseInt(index[2]) < 250) {
+                                new GunCheckRunnable(1, GunConstantName.S686).checkPeijian();
+                            } else {
+                                new GunCheckRunnable(2, GunConstantName.S686).checkPeijian();
+                            }
+
+                            break;
+                        case "10":
+                            if (Integer.parseInt(index[2]) < 250) {
+                                new GunCheckRunnable(1, GunConstantName.ZIDONG).checkPeijian();
+                            } else {
+                                new GunCheckRunnable(2, GunConstantName.ZIDONG).checkPeijian();
+                            }
+
+                            break;
+                        case "11":
+                            if (Integer.parseInt(index[2]) < 250) {
+                                new GunCheckRunnable(1, GunConstantName.S12K).checkPeijian();
+                            } else {
+                                new GunCheckRunnable(2, GunConstantName.S12K).checkPeijian();
+                            }
+
+                            break;
+                        case "12":
+                            if (Integer.parseInt(index[2]) < 250) {
+                                new GunCheckRunnable(1, GunConstantName.QBU).checkPeijian();
+                            } else {
+                                new GunCheckRunnable(2, GunConstantName.QBU).checkPeijian();
                             }
 
                             break;
@@ -305,8 +395,7 @@ public class KeyboardHook implements Runnable {
     }
 
 
-    public  void checkPackage()  {
-
+    public void checkPackage() {
 
 
         resultIfvalid = false;
@@ -324,8 +413,6 @@ public class KeyboardHook implements Runnable {
         String gun1result = Constant.getDm().invoke("FindPicEx", packageCheck).toString();
 
 
-
-
         if (null != gun1result && !"".equals(gun1result)) {
             System.out.println("打开了背包");
             isInthePackage = true;
@@ -335,7 +422,7 @@ public class KeyboardHook implements Runnable {
                 public void run() {
                     while (isInthePackage && resultIfvalid) {
                         try {
-                            Thread.sleep(300);
+                            Thread.sleep(200);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -361,4 +448,59 @@ public class KeyboardHook implements Runnable {
             }
         }
     }
+
+
+    public void upDownFps(int updown) {
+        if (1 == updown) {
+            // 判断当前枪支
+            if (1 == CurrentBody.currentGun && CurrentBody.gun1Exist) {
+                CurrentBody.gun1Fps++;
+
+            } else if (2 == CurrentBody.currentGun && CurrentBody.gun2Exist) {
+                CurrentBody.gun2Fps++;
+            }
+        } else {
+            if (1 == CurrentBody.currentGun && CurrentBody.gun1Exist) {
+                if (CurrentBody.gun1Fps > 0) {
+                    CurrentBody.gun1Fps--;
+                }
+
+
+            } else if (2 == CurrentBody.currentGun && CurrentBody.gun2Exist) {
+                if (CurrentBody.gun2Fps > 0) {
+                    CurrentBody.gun2Fps--;
+                }
+            }
+        }
+
+
+    }
+
+    public void upDownFpsRise(int updown) {
+        if (1 == updown) {
+            // 判断当前枪支
+            if (1 == CurrentBody.currentGun && CurrentBody.gun1Exist) {
+                CurrentBody.gun1FpsRise = CurrentBody.gun1FpsRise.add(new BigDecimal(0.1));
+
+            } else if (2 == CurrentBody.currentGun && CurrentBody.gun2Exist) {
+                CurrentBody.gun2FpsRise = CurrentBody.gun2FpsRise.add(new BigDecimal(0.1));
+            }
+        } else {
+            if (1 == CurrentBody.currentGun && CurrentBody.gun1Exist) {
+                if (CurrentBody.gun1FpsRise.compareTo(new BigDecimal(0)) > 0) {
+                    CurrentBody.gun1FpsRise = CurrentBody.gun1FpsRise.subtract(new BigDecimal(0.1));
+                }
+
+
+            } else if (2 == CurrentBody.currentGun && CurrentBody.gun2Exist) {
+                if (CurrentBody.gun2FpsRise.compareTo(new BigDecimal(0)) > 0) {
+                    CurrentBody.gun2FpsRise = CurrentBody.gun2FpsRise.subtract(new BigDecimal(0.1));
+                }
+            }
+        }
+
+
+    }
+
+
 }

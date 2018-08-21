@@ -131,6 +131,20 @@ public class GunFpsCalculation {
 
         }
 
+        //设置当前枪的编码，枪名先设置机瞄,默认抖动
+        if (gunIndex == 1) {
+            CurrentBody.gun1Fps = fps;
+            CurrentBody.gun1FpsRise = new BigDecimal(1.4);
+            CurrentBody.gun1code = Joiner.on("/").join(resultCode);
+            CurrentBody.gun1Name = gunProperty;
+        } else {
+            CurrentBody.gun2Fps = fps;
+            CurrentBody.gun2FpsRise = new BigDecimal(1.4);
+            CurrentBody.gun2code = Joiner.on("/").join(resultCode);
+            CurrentBody.gun2Name = gunProperty;
+        }
+
+
         if (ifCheckPeijian) {
             //匹配配件字典fps
             try {
@@ -156,29 +170,16 @@ public class GunFpsCalculation {
                         }
                     }
                 }
-                // 如果检测到配件但是没有匹配字典，设置默认
-                if(!ifDict){
-                    //设置当前枪的编码，枪名先设置机瞄,默认抖动
-                    if (gunIndex == 1) {
-                        CurrentBody.gun1Fps = fps;
-                        CurrentBody.gun1FpsRise = new BigDecimal(1.4);
-                        CurrentBody.gun1code = Joiner.on("/").join(resultCode);
-                        CurrentBody.gun1Name = gunProperty;
-                    } else {
-                        CurrentBody.gun2Fps = fps;
-                        CurrentBody.gun2FpsRise = new BigDecimal(1.4);
-                        CurrentBody.gun2code = Joiner.on("/").join(resultCode);
-                        CurrentBody.gun2Name = gunProperty;
-                    }
-                }
 
+
+                in.close();
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
         } else {
-            System.out.println(gunIndex+"没检查到配件！");
+            System.out.println(gunIndex + "没检查到配件！");
             if (KeyboardHook.isInthePackage && KeyboardHook.resultIfvalid) {
                 try {
                     String code = Joiner.on("/").join(resultCode);
@@ -203,27 +204,11 @@ public class GunFpsCalculation {
                             }
                         }
                     }
-                    // 如果没检测到配件但是机瞄也没有匹配字典，设置默认fps
-                    if(!ifDict){
-                        //设置当前枪的编码，枪名先设置机瞄,默认抖动
-                        if (gunIndex == 1) {
-                            CurrentBody.gun1Fps = fps;
-                            CurrentBody.gun1FpsRise = new BigDecimal(1.4);
-                            CurrentBody.gun1code = Joiner.on("/").join(resultCode);
-                            CurrentBody.gun1Name = gunProperty;
-                        } else {
-                            CurrentBody.gun2Fps = fps;
-                            CurrentBody.gun2FpsRise = new BigDecimal(1.4);
-                            CurrentBody.gun2code = Joiner.on("/").join(resultCode);
-                            CurrentBody.gun2Name = gunProperty;
-                        }
-                    }
-
+                    in.close();
 
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
 
 
             }

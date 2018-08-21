@@ -11,7 +11,7 @@ public class GunConstantName {
 
     public final static String M416 = "M416";
 
-    public final static String M16A4 = "M16";
+    public final static String M16 = "M16";
 
     public final static String SCAR = "SCAR";
 
@@ -35,7 +35,7 @@ public class GunConstantName {
 
     public final static String QBU = "QBU";
 
-    public final static List<String> gunNameList = Arrays.asList(SCAR, M416, M16A4, UMP9,VECTOR,QBZ,AKM,UZI,TOM,S686,ZIDONG,S12K,QBU);
+    public final static List<String> gunNameList = Arrays.asList(SCAR, M416, M16, UMP9,VECTOR,QBZ,AKM,UZI,TOM,S686,ZIDONG,S12K,QBU);
 
 
 }
