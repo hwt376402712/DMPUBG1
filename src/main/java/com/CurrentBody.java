@@ -24,7 +24,7 @@ public class CurrentBody {
     public volatile static boolean gun2Exist = false;
 
 
-    public volatile static Integer currentGun;
+    public volatile static Integer currentGun = 0;
 
 
     static void changeBody() {

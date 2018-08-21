@@ -1,6 +1,7 @@
 package com;
 
 import com.google.common.base.Joiner;
+import com.gun.FileConstant;
 import com.gun.GunConstantName;
 import com.jacob.com.Variant;
 import com.sun.deploy.util.StringUtils;
@@ -9,12 +10,12 @@ import com.sun.jna.platform.win32.WinDef.*;
 
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @Author: huangwentao
@@ -153,6 +154,13 @@ public class KeyboardHook implements Runnable {
 
 
                         }
+                        // baocun
+                        if (event.vkCode == 13 && wParam.intValue() == 257) {
+
+                            saveGunFps();
+
+
+                        }
                         // 按下ESC退出
 //                if(event.vkCode==27) KeyboardHook.this.setHookOff();
                     }
@@ -168,6 +176,8 @@ public class KeyboardHook implements Runnable {
 
 
     };//MyBlog @See http://blog.csdn.net/shenpibaipao
+
+
 
     public void run() {
         setHookOn();
@@ -501,6 +511,32 @@ public class KeyboardHook implements Runnable {
 
 
     }
+
+    private void saveGunFps() {
+        if(CurrentBody.currentGun == 1 && CurrentBody.gun1Exist){
+            String gunName = CurrentBody.gun1Name;
+            String gunCode = CurrentBody.gun1code;
+            String fps = String.valueOf(CurrentBody.gun1Fps);
+            String fpsRise = String.valueOf(CurrentBody.gun1FpsRise);
+            FileReader reader = null;
+            try {
+                reader = new FileReader(new FileConstant().getPath(gunName+".properties"));
+                Properties p = new Properties();
+                p.load(reader);
+                p.setProperty(gunCode, fps+","+fpsRise);
+                FileWriter writer = new FileWriter(new FileConstant().getPath(gunName+".properties"));
+                p.store(writer, "新增枪数据");
+                reader.close();
+                writer.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+        }
+    }
+
+
 
 
 }
