@@ -23,6 +23,7 @@ public class M4Gun {
         miaoJinglist.add(GunFpsEnum.QUANXI);
         miaoJinglist.add(GunFpsEnum.EB);
         miaoJinglist.add(GunFpsEnum.SIBEI);
+        miaoJinglist.add(GunFpsEnum.SANB);
 
         headlist.add(GunFpsEnum.BQBCQ);
         headlist.add(GunFpsEnum.BQXYAN);
@@ -32,6 +33,8 @@ public class M4Gun {
         wolist.add(GunFpsEnum.CZWB);
         wolist.add(GunFpsEnum.QXSWB);
         wolist.add(GunFpsEnum.BJSWB);
+
+        taillist.add(GunFpsEnum.ZSQT);
         GunFpsCalculation.FpsCalculation(gunIndex, jimiaoFps,"M416", miaoJinglist, headlist, wolist, taillist);
     }
 

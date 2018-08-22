@@ -85,7 +85,10 @@ public class GunCheckRunnable  {
                 // 检查scar配件
                 new QBUGun(gunIndex);
                 break;
-
+            case GunConstantName.WIN94:
+                // 检查scar配件
+                new WIN94Gun(gunIndex);
+                break;
 
         }
     }

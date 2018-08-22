@@ -38,8 +38,8 @@ public class CurrentBody {
 
     public static long getCurrentFps() {
         System.out.println("获取当前枪FPS");
-        if (null == currentGun) {// 没有切换枪，
-            if (0 != gun1Fps) {
+        if (0 == currentGun) {// 没有切换枪，
+            if (gun1Exist) {
                 System.out.println("获取当前枪FPS，gun1Fps:" + gun1Fps);
                 return gun1Fps;
             } else {
@@ -50,14 +50,14 @@ public class CurrentBody {
                 return 0;
             } else {
                 if (1 == currentGun) {
-                    if (0 != gun1Fps) {
+                    if (gun1Exist) {
                         return gun1Fps;
                     } else {
                         return gun2Fps;
                     }
 
                 } else if (2 == currentGun) {
-                    if (0 != gun2Fps) {
+                    if (gun2Exist) {
                         return gun2Fps;
                     } else {
                         return gun1Fps;
@@ -70,9 +70,9 @@ public class CurrentBody {
     }
 
     public static BigDecimal getCurrentFpsRise() {
-        if (null == currentGun) {
+        if (0 == currentGun) {
             // 没有切换枪，
-            if (0 != gun1Fps) {
+            if (gun1Exist) {
                 System.out.println("获取当前枪gun1Fps波动:" + gun1FpsRise);
                 return gun1FpsRise;
             } else {

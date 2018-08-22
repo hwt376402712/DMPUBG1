@@ -369,6 +369,14 @@ public class KeyboardHook implements Runnable {
                             }
 
                             break;
+                        case "13":
+                            if (Integer.parseInt(index[2]) < 250) {
+                                new GunCheckRunnable(1, GunConstantName.WIN94).checkPeijian();
+                            } else {
+                                new GunCheckRunnable(2, GunConstantName.WIN94).checkPeijian();
+                            }
+
+                            break;
 
 
                     }
@@ -533,6 +541,25 @@ public class KeyboardHook implements Runnable {
             }
 
 
+        }
+        else if(CurrentBody.currentGun == 2 && CurrentBody.gun2Exist){
+            String gunName = CurrentBody.gun2Name;
+            String gunCode = CurrentBody.gun2code;
+            String fps = String.valueOf(CurrentBody.gun2Fps);
+            String fpsRise = String.valueOf(CurrentBody.gun2FpsRise);
+            FileReader reader = null;
+            try {
+                reader = new FileReader(new FileConstant().getPath(gunName+".properties"));
+                Properties p = new Properties();
+                p.load(reader);
+                p.setProperty(gunCode, fps+","+fpsRise);
+                FileWriter writer = new FileWriter(new FileConstant().getPath(gunName+".properties"));
+                p.store(writer, "新增枪数据");
+                reader.close();
+                writer.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

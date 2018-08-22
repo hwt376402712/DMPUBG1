@@ -111,7 +111,7 @@ public class GunFpsCalculation {
 
 
             var[5] = new Variant("000000");
-            var[6] = new Variant(0.8);
+            var[6] = new Variant(1);
             var[7] = new Variant(0);
 
             String s = Constant.getDm().invoke("FindPicEx", var).toString();
@@ -179,8 +179,9 @@ public class GunFpsCalculation {
             }
 
         } else {
-            System.out.println(gunIndex + "没检查到配件！");
+
             if (KeyboardHook.isInthePackage && KeyboardHook.resultIfvalid) {
+                System.out.println(gunIndex + "没检查到配件！");
                 try {
                     String code = Joiner.on("/").join(resultCode);
                     Properties properties = new Properties();

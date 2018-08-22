@@ -18,6 +18,7 @@ public class AKgun {
         miaoJinglist.add(GunFpsEnum.QUANXI);
         miaoJinglist.add(GunFpsEnum.EB);
         miaoJinglist.add(GunFpsEnum.SIBEI);
+        miaoJinglist.add(GunFpsEnum.SANB);
 
         headlist.add(GunFpsEnum.BQBCQ);
         headlist.add(GunFpsEnum.BQXYAN);
