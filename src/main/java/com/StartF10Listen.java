@@ -1,6 +1,10 @@
 package com;
 
 import javax.swing.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * @Author: huangwentao
@@ -12,6 +16,7 @@ public class StartF10Listen {
 
 
     public StartF10Listen() {
+        createResourceFile();
         f = new MainForm();
         JFrame frame = new JFrame("form");
         frame.setContentPane(f.getPanel());
@@ -29,6 +34,43 @@ public class StartF10Listen {
 
     }
 
+    public static void copyFile(InputStream inStream, String newPath) {
+        try {
+            int bytesum = 0;
+            int byteread = 0;
+            FileOutputStream fs = new FileOutputStream(newPath);
+            byte[] buffer = new byte[1444];
+            while ((byteread = inStream.read(buffer)) != -1) {
+                bytesum += byteread; //字节数 文件大小
+                System.out.println(bytesum);
+                fs.write(buffer, 0, byteread);
+            }
+            inStream.close();
+            fs.close();
 
+        } catch (Exception e) {
+            System.out.println("复制单个文件操作出错");
+            e.printStackTrace();
+        }
+    }
+
+
+    public void createResourceFile() {
+        //运行前检查资源目录是否存在
+        File file = new File("D:\\pubgResoueces");
+        if (!file.exists()) {
+            try {
+                file.mkdir();
+                for (String fileName : FileList.filName) {
+                    InputStream resource = this.getClass().getClassLoader().getResourceAsStream(fileName);
+                    copyFile(resource, "D:\\pubgResoueces\\" + fileName);
+                }
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 }

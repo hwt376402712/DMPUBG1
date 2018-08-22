@@ -9,6 +9,7 @@ import com.sun.jna.platform.win32.*;
 import com.sun.jna.platform.win32.WinDef.*;
 
 
+import javax.swing.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -62,6 +63,8 @@ public class KeyboardHook implements Runnable {
                         long i = Constant.getDm().invoke("BindWindow", var).getInt();
                         Constant.setCurrentPid(Constant.getDm().invoke("GetForegroundFocus").getInt());
                         MouseHook.startMouseListen();
+
+
                     } else {
                         StartF10Listen.f.getF10开启Button().setText("开启");
                         MouseHook.stopMouseListen();
@@ -178,7 +181,6 @@ public class KeyboardHook implements Runnable {
     };//MyBlog @See http://blog.csdn.net/shenpibaipao
 
 
-
     public void run() {
         setHookOn();
     }
@@ -214,7 +216,7 @@ public class KeyboardHook implements Runnable {
         System.out.println("开始检查枪支");
         Variant[] ziku = new Variant[2];
         ziku[0] = new Variant(0);
-        ziku[1] = new Variant(new File(this.getClass().getClassLoader().getResource("ziku.txt").getPath()).getPath());
+        ziku[1] = new Variant(new FileConstant().getPath("ziku.txt"));
         Constant.getDm().invoke("SetDict", ziku).getInt();
         Variant[] gun1Search = new Variant[7];
         gun1Search[0] = new Variant(1349);
@@ -405,6 +407,9 @@ public class KeyboardHook implements Runnable {
                 CurrentBody.gun2code = "";
                 CurrentBody.gun2Exist = false;
             }
+            if((null == gun1result || "".equals(gun1result)) && (null == gun2result || "".equals(gun2result))){
+                CurrentBody.currentGun = 0;
+            }
 
 
         }
@@ -424,7 +429,7 @@ public class KeyboardHook implements Runnable {
         packageCheck[1] = new Variant(95);
         packageCheck[2] = new Variant(517);
         packageCheck[3] = new Variant(153);
-        packageCheck[4] = new Variant(new File(this.getClass().getClassLoader().getResource("LEIXING.bmp").getPath()).getPath());
+        packageCheck[4] = new Variant(new FileConstant().getPath("LEIXING.bmp"));
         packageCheck[5] = new Variant("000000");
         packageCheck[6] = new Variant(0.9);
         packageCheck[7] = new Variant(1);
@@ -440,7 +445,7 @@ public class KeyboardHook implements Runnable {
                 public void run() {
                     while (isInthePackage && resultIfvalid) {
                         try {
-                            Thread.sleep(200);
+                            Thread.sleep(100);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -521,18 +526,18 @@ public class KeyboardHook implements Runnable {
     }
 
     private void saveGunFps() {
-        if(CurrentBody.currentGun == 1 && CurrentBody.gun1Exist){
+        if (CurrentBody.currentGun == 1 && CurrentBody.gun1Exist) {
             String gunName = CurrentBody.gun1Name;
             String gunCode = CurrentBody.gun1code;
             String fps = String.valueOf(CurrentBody.gun1Fps);
             String fpsRise = String.valueOf(CurrentBody.gun1FpsRise);
             FileReader reader = null;
             try {
-                reader = new FileReader(new FileConstant().getPath(gunName+".properties"));
+                reader = new FileReader(new FileConstant().getPath(gunName + ".properties"));
                 Properties p = new Properties();
                 p.load(reader);
-                p.setProperty(gunCode, fps+","+fpsRise);
-                FileWriter writer = new FileWriter(new FileConstant().getPath(gunName+".properties"));
+                p.setProperty(gunCode, fps + "," + fpsRise);
+                FileWriter writer = new FileWriter(new FileConstant().getPath(gunName + ".properties"));
                 p.store(writer, "新增枪数据");
                 reader.close();
                 writer.close();
@@ -541,19 +546,18 @@ public class KeyboardHook implements Runnable {
             }
 
 
-        }
-        else if(CurrentBody.currentGun == 2 && CurrentBody.gun2Exist){
+        } else if (CurrentBody.currentGun == 2 && CurrentBody.gun2Exist) {
             String gunName = CurrentBody.gun2Name;
             String gunCode = CurrentBody.gun2code;
             String fps = String.valueOf(CurrentBody.gun2Fps);
             String fpsRise = String.valueOf(CurrentBody.gun2FpsRise);
             FileReader reader = null;
             try {
-                reader = new FileReader(new FileConstant().getPath(gunName+".properties"));
+                reader = new FileReader(new FileConstant().getPath(gunName + ".properties"));
                 Properties p = new Properties();
                 p.load(reader);
-                p.setProperty(gunCode, fps+","+fpsRise);
-                FileWriter writer = new FileWriter(new FileConstant().getPath(gunName+".properties"));
+                p.setProperty(gunCode, fps + "," + fpsRise);
+                FileWriter writer = new FileWriter(new FileConstant().getPath(gunName + ".properties"));
                 p.store(writer, "新增枪数据");
                 reader.close();
                 writer.close();
@@ -562,8 +566,6 @@ public class KeyboardHook implements Runnable {
             }
         }
     }
-
-
 
 
 }

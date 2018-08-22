@@ -37,13 +37,18 @@ public class CurrentBody {
 
 
     public static long getCurrentFps() {
-        System.out.println("获取当前枪FPS");
-        if (0 == currentGun) {// 没有切换枪，
+        if (0 == currentGun) {
+            // 手上没枪
             if (gun1Exist) {
                 System.out.println("获取当前枪FPS，gun1Fps:" + gun1Fps);
+                currentGun = 1;
                 return gun1Fps;
-            } else {
+            } else if (gun2Exist) {
+                System.out.println("获取当前枪FPS，gun2Fps:" + gun1Fps);
+                currentGun = 2;
                 return gun2Fps;
+            } else {
+                return 0;
             }
         } else {
             if (currentGun != 1 && currentGun != 2) {// 其他操作，不压枪
@@ -52,15 +57,23 @@ public class CurrentBody {
                 if (1 == currentGun) {
                     if (gun1Exist) {
                         return gun1Fps;
-                    } else {
+                    } else if (gun2Exist) {
+                        currentGun = 2;
                         return gun2Fps;
+                    } else {
+                        currentGun = 0;
+                        return 0;
                     }
 
                 } else if (2 == currentGun) {
                     if (gun2Exist) {
                         return gun2Fps;
-                    } else {
+                    } else if (gun1Exist) {
+                        currentGun = 1;
                         return gun1Fps;
+                    } else {
+                        currentGun = 0;
+                        return 0;
                     }
                 }
             }
@@ -71,25 +84,37 @@ public class CurrentBody {
 
     public static BigDecimal getCurrentFpsRise() {
         if (0 == currentGun) {
-            // 没有切换枪，
+            // 手上没枪
             if (gun1Exist) {
                 System.out.println("获取当前枪gun1Fps波动:" + gun1FpsRise);
                 return gun1FpsRise;
-            } else {
+            } else if (gun2Exist) {
                 return gun2FpsRise;
+            } else {
+                return new BigDecimal(0);
             }
         } else {
             if (currentGun != 1 && currentGun != 2) {// 其他操作，不压枪
                 return new BigDecimal(0);
             } else {
                 if (1 == currentGun) {
-
-                    return gun1FpsRise;
+                    if (gun1Exist) {
+                        return gun1FpsRise;
+                    } else if (gun2Exist) {
+                        return gun2FpsRise;
+                    } else {
+                        return new BigDecimal(0);
+                    }
 
 
                 } else if (2 == currentGun) {
-
-                    return gun2FpsRise;
+                    if (gun2Exist) {
+                        return gun2FpsRise;
+                    } else if (gun1Exist) {
+                        return gun1FpsRise;
+                    } else {
+                        return new BigDecimal(0);
+                    }
 
                 }
             }

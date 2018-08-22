@@ -8,6 +8,7 @@ import java.math.BigDecimal;
  * @Date: 2018/8/15 13:46
  */
 public enum GunFpsEnum {
+    ZIKU("字库", "", new FileConstant().getPath("ziku.txt"), new BigDecimal(0)),
 
     HD("红点", "hongdian", new FileConstant().getPath("HD.bmp"), new BigDecimal(1)),
     QUANXI("全息", "quanxi", new FileConstant().getPath("QX.bmp"), new BigDecimal(1)),

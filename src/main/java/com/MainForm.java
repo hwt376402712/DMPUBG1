@@ -3,9 +3,11 @@ package com;
 import com.StartF10Listen;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
+import com.sun.jna.platform.FileUtils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.*;
 
 /**
  * @Author: huangwentao
@@ -35,8 +37,13 @@ public class MainForm {
 
     public static void main(String[] args) {
 
+
         StartF10Listen ss = new StartF10Listen();
     }
+
+
+
+
 
 
     {

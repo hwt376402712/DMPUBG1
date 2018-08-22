@@ -42,6 +42,7 @@ public class GunFpsCalculation {
         // 分4个坐标检查配件
         boolean ifCheckPeijian = false;// 至少检索一个配件
         List<String> resultCode = new ArrayList<>();
+        List<String> resultPeijianName = new ArrayList<>();
         List<GunFpsEnum> currentCheckList = null;
         for (int i = 0; i <= 3; i++) {
             if (i == 0) {
@@ -118,12 +119,13 @@ public class GunFpsCalculation {
 
             if (null != s && !"".equals(s)) {
                 ifCheckPeijian = true;
-                System.out.println("gun" + gunIndex + "检查到了配件!!~~~~~~~~~~~~" + s);
+
                 int index = Integer.parseInt(s.split("\\,")[0]);
                 GunFpsEnum currentEnum = currentCheckList.get(index);
 
                 //组装配件编码，待查询
                 resultCode.add(currentEnum.getCode());
+                resultPeijianName.add(currentEnum.getName());
 
             } else {
                 resultCode.add("0");
@@ -146,11 +148,12 @@ public class GunFpsCalculation {
 
 
         if (ifCheckPeijian) {
+            System.out.println(gunProperty + gunIndex + "检查到了配件:" + Joiner.on(",").join(resultPeijianName));
             //匹配配件字典fps
             try {
                 String code = Joiner.on("/").join(resultCode);
                 Properties properties = new Properties();
-                InputStream in = GunFpsCalculation.class.getClassLoader().getResourceAsStream(gunProperty + ".properties");
+                InputStream in = new FileConstant().getInputStram(gunProperty + ".properties");
                 properties.load(in);
                 Set<Map.Entry<Object, Object>> entrySet = properties.entrySet();//返回的属性键值对实体
                 boolean ifDict = false;
@@ -161,12 +164,12 @@ public class GunFpsCalculation {
                         if (gunIndex == 1) {
                             CurrentBody.gun1Fps = Long.valueOf(entry.getValue().toString().split("\\,")[0]);
                             CurrentBody.gun1FpsRise = new BigDecimal(entry.getValue().toString().split("\\,")[1]);
-                            System.out.println("设置当前gun1的fps为：" + CurrentBody.gun1Fps + " 波动为" + CurrentBody.gun1FpsRise);
+                            System.out.println("设置当前" + gunProperty + gunIndex + "的fps为：" + CurrentBody.gun1Fps + " 波动为" + CurrentBody.gun1FpsRise);
 
                         } else {
                             CurrentBody.gun2Fps = Long.valueOf(entry.getValue().toString().split("\\,")[0]);
                             CurrentBody.gun2FpsRise = new BigDecimal(entry.getValue().toString().split("\\,")[1]);
-                            System.out.println("设置当前gun2的fps为：" + CurrentBody.gun1Fps + " 波动为" + CurrentBody.gun2FpsRise);
+                            System.out.println("设置当前" + gunProperty + gunIndex + "的fps为：" + CurrentBody.gun1Fps + " 波动为" + CurrentBody.gun2FpsRise);
                         }
                     }
                 }
@@ -181,11 +184,11 @@ public class GunFpsCalculation {
         } else {
 
             if (KeyboardHook.isInthePackage && KeyboardHook.resultIfvalid) {
-                System.out.println(gunIndex + "没检查到配件！");
+                System.out.println(gunProperty + "没检查到配件！");
                 try {
                     String code = Joiner.on("/").join(resultCode);
                     Properties properties = new Properties();
-                    InputStream in = GunFpsCalculation.class.getClassLoader().getResourceAsStream(gunProperty + ".properties");
+                    InputStream in = new FileConstant().getInputStram(gunProperty + ".properties");
                     properties.load(in);
                     Set<Map.Entry<Object, Object>> entrySet = properties.entrySet();//返回的属性键值对实体
                     boolean ifDict = false;
@@ -196,12 +199,12 @@ public class GunFpsCalculation {
                             if (gunIndex == 1) {
                                 CurrentBody.gun1Fps = Long.valueOf(entry.getValue().toString().split("\\,")[0]);
                                 CurrentBody.gun1FpsRise = new BigDecimal(entry.getValue().toString().split("\\,")[1]);
-                                System.out.println("设置当前gun1的fps为：" + CurrentBody.gun1Fps + " 波动为" + CurrentBody.gun1FpsRise);
+                                System.out.println("设置当前" + gunProperty + gunIndex + "的fps为：" + CurrentBody.gun1Fps + " 波动为" + CurrentBody.gun1FpsRise);
 
                             } else {
                                 CurrentBody.gun2Fps = Long.valueOf(entry.getValue().toString().split("\\,")[0]);
                                 CurrentBody.gun2FpsRise = new BigDecimal(entry.getValue().toString().split("\\,")[1]);
-                                System.out.println("设置当前gun2的fps为：" + CurrentBody.gun1Fps + " 波动为" + CurrentBody.gun2FpsRise);
+                                System.out.println("设置当前" + gunProperty + gunIndex + "的fps为：" + CurrentBody.gun1Fps + " 波动为" + CurrentBody.gun2FpsRise);
                             }
                         }
                     }
