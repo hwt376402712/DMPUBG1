@@ -113,7 +113,7 @@ public class MouseHook implements Runnable {
 //                                System.err.println("mouse move left button down, x=" + lParam.pt.x + " y=" + lParam.pt.y);
                                 break;
                             case MouseHook.WM_LBUTTONDOWN:
-                                System.err.println("mouseLeft down left button down, x=" + lParam.pt.x + " y=" + lParam.pt.y);
+//                                System.err.println("mouseLeft down left button down, x=" + lParam.pt.x + " y=" + lParam.pt.y);
                                 leftBtn = true;
                                 startMouserMove();
 
@@ -122,17 +122,17 @@ public class MouseHook implements Runnable {
 
 
                             case MouseHook.WM_LBUTTONUP:
-                                System.err.println("mouseLeft up left button up, x=" + lParam.pt.x + " y=" + lParam.pt.y);
+//                                System.err.println("mouseLeft up left button up, x=" + lParam.pt.x + " y=" + lParam.pt.y);
                                 leftBtn = false;
                                 anxia = null;
                                 anxiaNow = null;
 
                                 break;
                             case MouseHook.WM_RBUTTONDOWN:
-                                System.err.println("mouseRight down right button up, x=" + lParam.pt.x + " y=" + lParam.pt.y);
+//                                System.err.println("mouseRight down right button up, x=" + lParam.pt.x + " y=" + lParam.pt.y);
                                 break;
                             case MouseHook.WM_RBUTTONUP:
-                                System.err.println("mouseRight up right button up, x=" + lParam.pt.x + " y=" + lParam.pt.y);
+//                                System.err.println("mouseRight up right button up, x=" + lParam.pt.x + " y=" + lParam.pt.y);
                                 anxia = null;
                                 anxiaNow = null;
                                 break;

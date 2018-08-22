@@ -26,7 +26,7 @@ public class QbzGun {
 
         wolist.add(GunFpsEnum.ZJWB);
         wolist.add(GunFpsEnum.CZWB);
-        wolist.add(GunFpsEnum.QXSWB);
+        wolist.add(GunFpsEnum.MZWB);
         wolist.add(GunFpsEnum.BJSWB);
         GunFpsCalculation.FpsCalculation(gunIndex, jimiaoFps,"QBZ", miaoJinglist,headlist,wolist,taillist);
     }

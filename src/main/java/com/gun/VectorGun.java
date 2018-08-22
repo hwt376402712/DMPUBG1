@@ -18,10 +18,14 @@ public class VectorGun {
         miaoJinglist.add(GunFpsEnum.HD);
         miaoJinglist.add(GunFpsEnum.QUANXI);
         miaoJinglist.add(GunFpsEnum.EB);
+        miaoJinglist.add(GunFpsEnum.SANB);
+
 
         headlist.add(GunFpsEnum.CFQBCQ);
         headlist.add(GunFpsEnum.CFQXYAN);
         headlist.add(GunFpsEnum.CFQXYIN);
+
+        wolist.add(GunFpsEnum.BJSWB);
 
 
         GunFpsCalculation.FpsCalculation(gunIndex, jimiaoFps,"VECTOR", miaoJinglist, headlist, wolist, taillist);

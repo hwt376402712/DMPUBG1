@@ -25,8 +25,8 @@ public enum GunFpsEnum {
     ZJWB("直角握把", "zhijiaowb", new FileConstant().getPath("ZJWB.bmp"), new BigDecimal(0.2)),
     CZWB("垂直握把", "chuizhiwb", new FileConstant().getPath("CZWB.bmp"), new BigDecimal(0.3)),
     MZWB("拇指握把", "muzhiwb", new FileConstant().getPath("MZWB.bmp"), new BigDecimal(0.3)),
-    BJSWB("半截式握把", "banjieshiwb", new FileConstant().getPath("BJSWB.bmp"), new BigDecimal(0.3)),
-    QXSWB("轻型式握把", "qingxingshiwb", new FileConstant().getPath("QXWB.bmp"), new BigDecimal(0.3));
+    BJSWB("半截式握把", "banjieshiwb", new FileConstant().getPath("BJSWB.bmp"), new BigDecimal(0.3));
+
     private String name;
 
     private String code;

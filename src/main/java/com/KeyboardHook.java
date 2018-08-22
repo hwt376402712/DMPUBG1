@@ -78,7 +78,7 @@ public class KeyboardHook implements Runnable {
                     if (Constant.getDm().invoke("GetForegroundFocus").getInt() == Constant.getCurrentPid()) {
 
                         String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-                        System.out.println(time + " KEY: " + event.vkCode + "---" + wParam.intValue());
+//                        System.out.println(time + " KEY: " + event.vkCode + "---" + wParam.intValue());
 
                         // 检测蹲下站立
                         if (event.vkCode == Integer.parseInt(KeyCodeEnuam.DUN.getKeyCode()) && wParam.intValue() == 257) {
@@ -217,7 +217,7 @@ public class KeyboardHook implements Runnable {
 
 
     public void checkGun() {
-        System.out.println("开始检查枪支");
+
         Variant[] ziku = new Variant[2];
         ziku[0] = new Variant(0);
         ziku[1] = new Variant(new FileConstant().getPath("ziku.txt"));
@@ -248,7 +248,7 @@ public class KeyboardHook implements Runnable {
 
         if ((null != gun1result && !"".equals(gun1result)) || (null != gun2result && !"".equals(gun2result))) {
             System.out.print("包裹中存在枪支！");
-            java.awt.Toolkit.getDefaultToolkit().beep();
+//            java.awt.Toolkit.getDefaultToolkit().beep();
 
             StringBuffer totalResult = new StringBuffer();
             if (null != gun1result && !"".equals(gun1result)) {

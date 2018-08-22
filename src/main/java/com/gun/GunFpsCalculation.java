@@ -112,7 +112,7 @@ public class GunFpsCalculation {
 
 
             var[5] = new Variant("000000");
-            var[6] = new Variant(1);
+            var[6] = new Variant(0.9);
             var[7] = new Variant(0);
 
             String s = Constant.getDm().invoke("FindPicEx", var).toString();
