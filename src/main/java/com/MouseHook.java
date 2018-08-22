@@ -191,7 +191,6 @@ public class MouseHook implements Runnable {
                         } else {
                             // 左键按下间隔小于0.1秒，单点，不压枪
                             if (System.currentTimeMillis() - anxia > 100) {
-                                // 检测存在准心，若存在准心则不压枪
 
                                 if (null == anxiaNow) {
                                     anxiaNow = System.currentTimeMillis();

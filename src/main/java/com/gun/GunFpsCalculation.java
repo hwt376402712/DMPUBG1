@@ -184,7 +184,7 @@ public class GunFpsCalculation {
         } else {
 
             if (KeyboardHook.isInthePackage && KeyboardHook.resultIfvalid) {
-                System.out.println(gunProperty + "没检查到配件！");
+                System.out.println(gunProperty+ gunIndex + "没检查到配件！");
                 try {
                     String code = Joiner.on("/").join(resultCode);
                     Properties properties = new Properties();

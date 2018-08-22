@@ -91,9 +91,11 @@ public class KeyboardHook implements Runnable {
                             if (CurrentBody.gun1Exist) {
                                 CurrentBody.currentGun = 1;
                                 System.out.println("切换当前枪支1");
-                            } else {
+                            } else if (CurrentBody.gun2Exist) {
                                 System.out.println("枪支1不存在，切换到枪支2");
                                 CurrentBody.currentGun = 2;
+                            } else {
+                                CurrentBody.currentGun = 0;
                             }
 
                         }
@@ -101,9 +103,11 @@ public class KeyboardHook implements Runnable {
                             if (CurrentBody.gun2Exist) {
                                 CurrentBody.currentGun = 2;
                                 System.out.println("切换当前枪支2");
-                            } else {
+                            } else if (CurrentBody.gun1Exist) {
                                 System.out.println("枪支2不存在，切换到枪支1");
                                 CurrentBody.currentGun = 1;
+                            } else {
+                                CurrentBody.currentGun = 0;
                             }
 
                         }
@@ -407,7 +411,7 @@ public class KeyboardHook implements Runnable {
                 CurrentBody.gun2code = "";
                 CurrentBody.gun2Exist = false;
             }
-            if((null == gun1result || "".equals(gun1result)) && (null == gun2result || "".equals(gun2result))){
+            if ((null == gun1result || "".equals(gun1result)) && (null == gun2result || "".equals(gun2result))) {
                 CurrentBody.currentGun = 0;
             }
 
