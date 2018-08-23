@@ -7,6 +7,7 @@ import com.jacob.com.Variant;
 import com.sun.deploy.util.StringUtils;
 import com.sun.jna.platform.win32.*;
 import com.sun.jna.platform.win32.WinDef.*;
+import com.ui.GameForm;
 
 
 import javax.swing.*;
@@ -49,8 +50,8 @@ public class KeyboardHook implements Runnable {
             if (nCode >= 0) {
                 // 系统开关
                 if (event.vkCode == 121 && wParam.intValue() == 257) {
-                    if ("开启".equals(StartF10Listen.f.getF10开启Button().getText())) {
-                        StartF10Listen.f.getF10开启Button().setText("启动中...");
+                    if ("已关闭".equals(GameForm.jLabel.getText())) {
+                        GameForm.jLabel.setText("启动中...");
                         // 绑定当前窗口
                         long dm = Constant.getDm().invoke("GetForegroundFocus").getInt();
                         Variant[] var = new Variant[5];
@@ -66,7 +67,7 @@ public class KeyboardHook implements Runnable {
 
 
                     } else {
-                        StartF10Listen.f.getF10开启Button().setText("开启");
+                        GameForm.jLabel.setText("已关闭");
                         MouseHook.stopMouseListen();
                         // 解绑
                         long dm = Constant.getDm().invoke("UnBindWindow").getInt();

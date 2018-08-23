@@ -1,9 +1,10 @@
 package com;
 
+import com.ui.MainForm;
+
 import javax.swing.*;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 
 /**
@@ -17,7 +18,6 @@ public class StartF10Listen {
 
     public StartF10Listen() {
         createResourceFile();
-        createVew();
 
         KeyboardHook keyboardHook = new KeyboardHook();
         MouseHook mouseHook = new MouseHook();
@@ -29,16 +29,6 @@ public class StartF10Listen {
 
     }
 
-    private void createVew() {
-        f = new MainForm();
-        f.getPanel().setSize(1000,300);
-        JFrame frame = new JFrame("幕后玩家");
-        frame.setContentPane(f.getPanel());
-        frame.setSize(1000,1000);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
-    }
 
     public static void copyFile(InputStream inStream, String newPath) {
         try {

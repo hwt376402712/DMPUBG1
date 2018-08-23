@@ -6,6 +6,7 @@ import com.sun.jna.platform.win32.Kernel32;
 import com.sun.jna.platform.win32.User32;
 import com.sun.jna.platform.win32.WinDef;
 import com.sun.jna.platform.win32.WinUser;
+import com.ui.GameForm;
 
 import java.math.BigDecimal;
 
@@ -283,55 +284,58 @@ public class MouseHook implements Runnable {
     }
 
     public void quickPick() {
-        manThread = new Thread() {
-            @Override
-            public void run() {
-                Variant[] shubiao = new Variant[2];
-                shubiao[0] = new Variant(450);
-                shubiao[1] = new Variant(0);
+        if (GameForm.quickPick) {
+            manThread = new Thread() {
+                @Override
+                public void run() {
+                    Variant[] shubiao = new Variant[2];
+                    shubiao[0] = new Variant(500);
+                    shubiao[1] = new Variant(0);
 
-                Variant[] shubiao2 = new Variant[2];
-                shubiao2[0] = new Variant(-450);
-                shubiao2[1] = new Variant(0);
+                    Variant[] shubiao2 = new Variant[2];
+                    shubiao2[0] = new Variant(-500);
+                    shubiao2[1] = new Variant(0);
 
-                while (middleBtn) {
+                    while (middleBtn) {
 
-                    if (null == middleAnxia) {
-                        middleAnxia = System.currentTimeMillis();
-                    } else {
-                        // 中键按下间隔小于0.1秒，单点
-                        if (System.currentTimeMillis() - middleAnxia > 100) {
-                            Constant.getDm().invoke("LeftDown");
-                            try {
-                                Thread.sleep(30);
-                                Constant.getDm().invoke("MoveR", shubiao);
-                                Thread.sleep(30);
-                                Constant.getDm().invoke("LeftUp");
-                                Thread.sleep(30);
-                                Constant.getDm().invoke("MoveR", shubiao2);
-                                Thread.sleep(30);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
+                        if (null == middleAnxia) {
+                            middleAnxia = System.currentTimeMillis();
+                        } else {
+                            // 中键按下间隔小于0.1秒，单点
+                            if (System.currentTimeMillis() - middleAnxia > 100) {
+                                Constant.getDm().invoke("LeftDown");
+                                try {
+                                    Thread.sleep(30);
+                                    Constant.getDm().invoke("MoveR", shubiao);
+                                    Thread.sleep(30);
+                                    Constant.getDm().invoke("LeftUp");
+                                    Thread.sleep(30);
+                                    Constant.getDm().invoke("MoveR", shubiao2);
+                                    Thread.sleep(30);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+
+
                             }
 
 
                         }
 
 
+                        try {
+                            Thread.sleep(1);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
 
 
-                    try {
-                        Thread.sleep(1);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
                 }
+            };
+            manThread.start();
+        }
 
-
-            }
-        };
-        manThread.start();
     }
 
 
