@@ -45,7 +45,7 @@ public class StartF10Listen {
             fs.close();
 
         } catch (Exception e) {
-            System.out.println("复制单个文件操作出错");
+            System.err.println("复制单个文件操作出错"+newPath);
             e.printStackTrace();
         }
     }

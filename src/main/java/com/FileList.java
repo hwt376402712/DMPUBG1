@@ -12,5 +12,5 @@ public class FileList {
 
     public static List<String> filName = Arrays.asList("AKM.properties", "BJSWB.bmp", "BQBCQ.bmp", "BQXYQ.bmp", "CFQBCQ.bmp", "CFQXYINQ.bmp", "CFQXYQ.bmp", "CZWB.bmp", "EB.bmp",
             "HD.bmp", "LEIXING.bmp", "LIUB.bmp", "M16.properties", "M416.properties", "MZWB.bmp", "QBU.properties", "QBZ.properties", "QX.bmp", "S12K.properties", "S686.properties", "SANBEI.bmp", "SCAR.properties", "SIBEI.bmp", "TOMXUN.properties", "UMP9.properties",
-            "UZI.properties", "VECTOR.properties", "WIN94.properties", "ZIDONG.properties", "ZIKU.TXT", "ZJWB.bmp", "ZSQT.bmp");
+            "UZI.properties", "VECTOR.properties", "WIN94.properties", "ZIDONG.properties", "ziku.txt", "ZJWB.bmp", "ZSQT.bmp");
 }
