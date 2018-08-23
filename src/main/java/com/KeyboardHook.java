@@ -384,6 +384,22 @@ public class KeyboardHook implements Runnable {
                             }
 
                             break;
+                        case "14":
+                            if (Integer.parseInt(index[2]) < 250) {
+                                new GunCheckRunnable(1, GunConstantName.BERY).checkPeijian();
+                            } else {
+                                new GunCheckRunnable(2, GunConstantName.BERY).checkPeijian();
+                            }
+
+                            break;
+                        case "15":
+                            if (Integer.parseInt(index[2]) < 250) {
+                                new GunCheckRunnable(1, GunConstantName.SKS).checkPeijian();
+                            } else {
+                                new GunCheckRunnable(2, GunConstantName.SKS).checkPeijian();
+                            }
+
+                            break;
 
 
                     }

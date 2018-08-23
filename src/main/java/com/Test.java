@@ -17,16 +17,21 @@ public class Test {
 
     public static void main(String[] args) throws IOException {
 
-        new TestConstructor();
+//        new TestCons
+
+        ActiveXComponent dm = new ActiveXComponent("dm.dmsoft");
 
 
+        System.out.println(dm.invoke("Ver").getString());
 
 
+        Dispatch com = (Dispatch) dm.getObject();
 
 
+        Variant result = Dispatch.call(com, "FindWindow", "", "记事本");
 
 
-
+        System.out.println(result);
 
 
     }

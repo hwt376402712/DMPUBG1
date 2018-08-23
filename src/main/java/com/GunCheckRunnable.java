@@ -89,6 +89,14 @@ public class GunCheckRunnable  {
                 // 检查scar配件
                 new WIN94Gun(gunIndex);
                 break;
+            case GunConstantName.BERY:
+                // 检查scar配件
+                new BERYGun(gunIndex);
+                break;
+            case GunConstantName.SKS:
+                // 检查scar配件
+                new SKSGun(gunIndex);
+                break;
 
         }
     }

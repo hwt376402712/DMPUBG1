@@ -1,19 +1,14 @@
 package com.gun;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @Author: huangwentao
- * @Date: 2018/8/15 12:12
- */
-public class M4Gun {
+public class BERYGun {
 
-    public long jimiaoFps = 8;
+    public long jimiaoFps =7;
 
 
-    public M4Gun(int gunIndex) {
+    public BERYGun(int gunIndex) {
 
         List<GunFpsEnum> miaoJinglist = new ArrayList<>();
         List<GunFpsEnum> headlist = new ArrayList<>();
@@ -23,8 +18,6 @@ public class M4Gun {
         miaoJinglist.add(GunFpsEnum.QUANXI);
         miaoJinglist.add(GunFpsEnum.EB);
         miaoJinglist.add(GunFpsEnum.SIBEI);
-        miaoJinglist.add(GunFpsEnum.SANB);
-        miaoJinglist.add(GunFpsEnum.LIUBEI);
 
         headlist.add(GunFpsEnum.BQBCQ);
         headlist.add(GunFpsEnum.BQXYAN);
@@ -32,11 +25,10 @@ public class M4Gun {
 
         wolist.add(GunFpsEnum.ZJWB);
         wolist.add(GunFpsEnum.CZWB);
-        wolist.add(GunFpsEnum.BJSWB);
         wolist.add(GunFpsEnum.MZWB);
-
-        taillist.add(GunFpsEnum.ZSQT);
-        new GunFpsCalculation(gunIndex, jimiaoFps,"M416", miaoJinglist, headlist, wolist, taillist).start();
+        wolist.add(GunFpsEnum.BJSWB);
+        new GunFpsCalculation(gunIndex, jimiaoFps,"BERY", miaoJinglist,headlist,wolist,taillist).start();
     }
+
 
 }

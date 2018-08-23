@@ -6,7 +6,7 @@ package com;
  */
 public enum KeyCodeEnuam {
 
-    DUN("蹲下", "18"),TIAO("跳起", "32"),TAB("背包","85");
+    DUN("蹲下", "18"),TIAO("跳起", "32"),TAB("背包","9");
     private String key;
 
     private String keyCode;

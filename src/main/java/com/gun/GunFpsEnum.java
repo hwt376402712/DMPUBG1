@@ -15,6 +15,7 @@ public enum GunFpsEnum {
     EB("二倍镜", "erbei", new FileConstant().getPath("EB.bmp"), new BigDecimal(4)),
     SANB("三倍镜", "sanbei", new FileConstant().getPath("SANBEI.bmp"), new BigDecimal(4)),
     SIBEI("四倍镜", "sibei", new FileConstant().getPath("SIBEI.bmp"), new BigDecimal(4)),
+    LIUBEI("六倍镜", "liubei", new FileConstant().getPath("LIUB.bmp"), new BigDecimal(4)),
     BQBCQ("步枪补偿器", "bqbuchangqi", new FileConstant().getPath("BQBCQ.bmp"), new BigDecimal(0.3)),
     BQXYAN("步枪消焰器", "bqxiaoyanqi", new FileConstant().getPath("BQXYQ.bmp"), new BigDecimal(0.2)),
     BQXYIN("步枪消音器", "bqxiaoyinqi", new FileConstant().getPath("BQXYINQ.bmp"), new BigDecimal(0.2)),
