@@ -26,7 +26,7 @@ public class M16Gun {
         headlist.add(GunFpsEnum.BQXYAN);
         headlist.add(GunFpsEnum.BQXYIN);
 
-        GunFpsCalculation.FpsCalculation(gunIndex, jimiaoFps,"M16", miaoJinglist, headlist, wolist, taillist);
+        new GunFpsCalculation(gunIndex, jimiaoFps,"M16", miaoJinglist, headlist, wolist, taillist).start();
     }
 
 }

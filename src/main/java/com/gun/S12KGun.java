@@ -19,7 +19,7 @@ public class S12KGun {
         List<GunFpsEnum> wolist = new ArrayList<>();
         List<GunFpsEnum> taillist = new ArrayList<>();
 
-        GunFpsCalculation.FpsCalculation(gunIndex, jimiaoFps,"S12K", miaoJinglist,headlist,wolist,taillist);
+        new GunFpsCalculation(gunIndex, jimiaoFps,"S12K", miaoJinglist,headlist,wolist,taillist).start();
     }
 
 }

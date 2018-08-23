@@ -21,7 +21,7 @@ public class UZIGun {
 
 
 
-        GunFpsCalculation.FpsCalculation(gunIndex, jimiaoFps,"UZI", miaoJinglist, headlist, wolist, taillist);
+        new GunFpsCalculation(gunIndex, jimiaoFps,"UZI", miaoJinglist, headlist, wolist, taillist).start();
     }
 
 }

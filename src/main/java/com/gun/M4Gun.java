@@ -35,7 +35,7 @@ public class M4Gun {
         wolist.add(GunFpsEnum.MZWB);
 
         taillist.add(GunFpsEnum.ZSQT);
-        GunFpsCalculation.FpsCalculation(gunIndex, jimiaoFps,"M416", miaoJinglist, headlist, wolist, taillist);
+        new GunFpsCalculation(gunIndex, jimiaoFps,"M416", miaoJinglist, headlist, wolist, taillist).start();
     }
 
 }

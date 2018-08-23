@@ -28,7 +28,7 @@ public class VectorGun {
         wolist.add(GunFpsEnum.BJSWB);
 
 
-        GunFpsCalculation.FpsCalculation(gunIndex, jimiaoFps,"VECTOR", miaoJinglist, headlist, wolist, taillist);
+        new GunFpsCalculation(gunIndex, jimiaoFps,"VECTOR", miaoJinglist, headlist, wolist, taillist).start();
     }
 
 }

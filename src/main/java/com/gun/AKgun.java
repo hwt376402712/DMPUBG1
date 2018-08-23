@@ -25,6 +25,6 @@ public class AKgun {
         headlist.add(GunFpsEnum.BQXYIN);
 
 
-        GunFpsCalculation.FpsCalculation(gunIndex, jimiaoFps, "AKM", miaoJinglist, headlist, wolist, taillist);
+        new GunFpsCalculation(gunIndex, jimiaoFps, "AKM", miaoJinglist, headlist, wolist, taillist).start();
     }
 }

@@ -16,7 +16,7 @@ public class WIN94Gun {
         List<GunFpsEnum> taillist = new ArrayList<>();
 
 
-        GunFpsCalculation.FpsCalculation(gunIndex, jimiaoFps,"WIN94", miaoJinglist, headlist, wolist, taillist);
+        new GunFpsCalculation(gunIndex, jimiaoFps,"WIN94", miaoJinglist, headlist, wolist, taillist).start();
     }
 
 }

@@ -19,6 +19,6 @@ public class S686Gun {
         List<GunFpsEnum> wolist = new ArrayList<>();
         List<GunFpsEnum> taillist = new ArrayList<>();
 
-        GunFpsCalculation.FpsCalculation(gunIndex, jimiaoFps,"S686", miaoJinglist,headlist,wolist,taillist);
+        new GunFpsCalculation(gunIndex, jimiaoFps,"S686", miaoJinglist,headlist,wolist,taillist).start();
     }
 }

@@ -27,7 +27,7 @@ public class UMP9Gun {
         headlist.add(GunFpsEnum.CFQXYIN);
 
 
-        GunFpsCalculation.FpsCalculation(gunIndex, jimiaoFps,"UMP9", miaoJinglist, headlist, wolist, taillist);
+        new GunFpsCalculation(gunIndex, jimiaoFps,"UMP9", miaoJinglist, headlist, wolist, taillist).start();
     }
 
 }

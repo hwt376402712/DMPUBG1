@@ -23,7 +23,7 @@ public class ZIDONGGun {
         miaoJinglist.add(GunFpsEnum.EB);
         miaoJinglist.add(GunFpsEnum.SIBEI);
 
-        GunFpsCalculation.FpsCalculation(gunIndex, jimiaoFps,"ZIDONG", miaoJinglist, headlist, wolist, taillist);
+        new GunFpsCalculation(gunIndex, jimiaoFps, "ZIDONG", miaoJinglist, headlist, wolist, taillist).start();
     }
 
 }

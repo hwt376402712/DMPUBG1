@@ -32,7 +32,7 @@ public class ScarGun {
         wolist.add(GunFpsEnum.CZWB);
 
         wolist.add(GunFpsEnum.BJSWB);
-        GunFpsCalculation.FpsCalculation(index, jimiaoFps,"SCAR", miaoJinglist, headlist, wolist, taillist);
+        new GunFpsCalculation(index, jimiaoFps,"SCAR", miaoJinglist, headlist, wolist, taillist).start();
     }
 
 }

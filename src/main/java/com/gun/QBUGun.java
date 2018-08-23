@@ -25,7 +25,7 @@ public class QBUGun {
 
 
 
-        GunFpsCalculation.FpsCalculation(gunIndex, jimiaoFps,"QBU", miaoJinglist, headlist, wolist, taillist);
+        new GunFpsCalculation(gunIndex, jimiaoFps,"QBU", miaoJinglist, headlist, wolist, taillist).start();
     }
 
 }

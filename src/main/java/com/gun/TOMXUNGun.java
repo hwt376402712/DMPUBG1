@@ -21,7 +21,7 @@ public class TOMXUNGun {
 
 
 
-        GunFpsCalculation.FpsCalculation(gunIndex, jimiaoFps,"TOMXUN", miaoJinglist, headlist, wolist, taillist);
+        new GunFpsCalculation(gunIndex, jimiaoFps,"TOMXUN", miaoJinglist, headlist, wolist, taillist).start();
     }
 
 }

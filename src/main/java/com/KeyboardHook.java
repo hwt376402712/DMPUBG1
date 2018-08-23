@@ -246,7 +246,8 @@ public class KeyboardHook implements Runnable {
         if (null != gun2result && !"".equals(gun2result)) {
             CurrentBody.gun2Exist = true;
         }
-
+        gun1result = "1,150,150";
+        gun2result = "0,300,300";
         if ((null != gun1result && !"".equals(gun1result)) || (null != gun2result && !"".equals(gun2result))) {
             System.out.print("包裹中存在枪支！");
 //            java.awt.Toolkit.getDefaultToolkit().beep();
@@ -440,7 +441,7 @@ public class KeyboardHook implements Runnable {
         packageCheck[7] = new Variant(1);
         String gun1result = Constant.getDm().invoke("FindPicEx", packageCheck).toString();
 
-
+        gun1result = "123";
         if (null != gun1result && !"".equals(gun1result)) {
             System.out.println("打开了背包");
             isInthePackage = true;
@@ -449,12 +450,14 @@ public class KeyboardHook implements Runnable {
             new Thread() {
                 public void run() {
                     while (isInthePackage && resultIfvalid) {
+
+                        checkGun();
+
                         try {
-                            Thread.sleep(100);
+                            Thread.sleep(200);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                        checkGun();
 
 
                     }

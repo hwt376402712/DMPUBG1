@@ -16,9 +16,31 @@ import java.util.*;
  * @Author: huangwentao
  * @Date: 2018/8/17 10:45
  */
-public class GunFpsCalculation {
+public class GunFpsCalculation extends Thread {
+    int gunIndex;
+    long fps;
+    String gunProperty;
+    List<GunFpsEnum> miaoJinglist;
+    List<GunFpsEnum> headList;
+    List<GunFpsEnum> wobaList;
+    List<GunFpsEnum> tailList;
 
-    static void FpsCalculation(int gunIndex, long fps, String gunProperty, List<GunFpsEnum> miaoJinglist, List<GunFpsEnum> headList, List<GunFpsEnum> wobaList, List<GunFpsEnum> tailList) {
+
+    public GunFpsCalculation(int gunIndex, long fps, String gunProperty, List<GunFpsEnum> miaoJinglist, List<GunFpsEnum> headList, List<GunFpsEnum> wobaList, List<GunFpsEnum> tailList) {
+
+        this.gunIndex = gunIndex;
+        this.fps = fps;
+        this.gunProperty = gunProperty;
+        this.miaoJinglist = miaoJinglist;
+        this.headList = headList;
+        this.wobaList = wobaList;
+        this.tailList = tailList;
+    }
+
+
+    //检查枪用多线程
+
+    public void run() {
         List<String> miaoJingPath = new ArrayList<>();
         List<String> headPath = new ArrayList<>();
         List<String> wobaPath = new ArrayList<>();
@@ -184,7 +206,7 @@ public class GunFpsCalculation {
         } else {
 
             if (KeyboardHook.isInthePackage && KeyboardHook.resultIfvalid) {
-                System.out.println(gunProperty+ gunIndex + "没检查到配件！");
+                System.out.println(gunProperty + gunIndex + "没检查到配件！");
                 try {
                     String code = Joiner.on("/").join(resultCode);
                     Properties properties = new Properties();
