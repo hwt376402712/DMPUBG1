@@ -53,13 +53,13 @@ public class StartF10Listen {
 
     public void createResourceFile() {
         //运行前检查资源目录是否存在
-        File file = new File("D:\\pubgResoueces");
+        File file = new File("D:\\pubgResources");
         if (!file.exists()) {
             try {
                 file.mkdir();
                 for (String fileName : FileList.filName) {
                     InputStream resource = this.getClass().getClassLoader().getResourceAsStream(fileName);
-                    copyFile(resource, "D:\\pubgResoueces\\" + fileName);
+                    copyFile(resource, "D:\\pubgResources\\" + fileName);
                 }
 
 
