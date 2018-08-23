@@ -17,12 +17,7 @@ public class StartF10Listen {
 
     public StartF10Listen() {
         createResourceFile();
-        f = new MainForm();
-        JFrame frame = new JFrame("form");
-        frame.setContentPane(f.getPanel());
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
+        createVew();
 
         KeyboardHook keyboardHook = new KeyboardHook();
         MouseHook mouseHook = new MouseHook();
@@ -32,6 +27,17 @@ public class StartF10Listen {
         mouseHookThread.start();
 
 
+    }
+
+    private void createVew() {
+        f = new MainForm();
+        f.getPanel().setSize(1000,300);
+        JFrame frame = new JFrame("幕后玩家");
+        frame.setContentPane(f.getPanel());
+        frame.setSize(1000,1000);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
     }
 
     public static void copyFile(InputStream inStream, String newPath) {

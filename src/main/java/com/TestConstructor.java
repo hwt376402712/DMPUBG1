@@ -17,6 +17,10 @@ import java.util.Properties;
 public class TestConstructor {
 
     public TestConstructor() throws IOException {
+
+
+
+
         ActiveXComponent activeDm = new ActiveXComponent("dm.dmsoft");
 
 
