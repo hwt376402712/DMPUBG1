@@ -250,35 +250,38 @@ public class MouseHook implements Runnable {
 
     // 判断是否开始压枪,在背包或者存在准心得情况下不压枪
     private boolean ifFire() {
-        if (KeyboardHook.isInthePackage) {
-            return false;
-        } else {
-            if (null != KeyboardHook.zhunxinColor) {
-                // 判断准心的4个像素点的rgb
-                Variant[] color = new Variant[2];
-                color[0] = new Variant(959);
-                color[1] = new Variant(539);
-                String rgb1 = Constant.getDm().invoke("GetColor", color).toString();
-                color[0] = new Variant(960);
-                color[1] = new Variant(539);
-                String rgb2 = Constant.getDm().invoke("GetColor", color).toString();
-                color[0] = new Variant(959);
-                color[1] = new Variant(540);
-                String rgb3 = Constant.getDm().invoke("GetColor", color).toString();
-                color[0] = new Variant(960);
-                color[1] = new Variant(540);
-                String rgb4 = Constant.getDm().invoke("GetColor", color).toString();
-                if (rgb1.equals(rgb2) && rgb2.equals(rgb3) && rgb3.equals(rgb4) && rgb4.equals(KeyboardHook.zhunxinColor)) {
-                    return false;
+        if (Constant.getDm().invoke("GetForegroundFocus").getInt() == Constant.getCurrentPid()) {
+            if (KeyboardHook.isInthePackage) {
+                return false;
+            } else {
+                if (null != KeyboardHook.zhunxinColor) {
+                    // 判断准心的4个像素点的rgb
+                    Variant[] color = new Variant[2];
+                    color[0] = new Variant(959);
+                    color[1] = new Variant(539);
+                    String rgb1 = Constant.getDm().invoke("GetColor", color).toString();
+                    color[0] = new Variant(960);
+                    color[1] = new Variant(539);
+                    String rgb2 = Constant.getDm().invoke("GetColor", color).toString();
+                    color[0] = new Variant(959);
+                    color[1] = new Variant(540);
+                    String rgb3 = Constant.getDm().invoke("GetColor", color).toString();
+                    color[0] = new Variant(960);
+                    color[1] = new Variant(540);
+                    String rgb4 = Constant.getDm().invoke("GetColor", color).toString();
+                    if (rgb1.equals(rgb2) && rgb2.equals(rgb3) && rgb3.equals(rgb4) && rgb4.equals(KeyboardHook.zhunxinColor)) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+
                 } else {
-                    return true;
+                    return false;
                 }
 
-            } else {
-                return false;
             }
-
         }
+        return false;
 
 
     }

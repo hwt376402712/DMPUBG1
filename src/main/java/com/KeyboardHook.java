@@ -3,6 +3,7 @@ package com;
 import com.google.common.base.Joiner;
 import com.gun.FileConstant;
 import com.gun.GunConstantName;
+import com.inter.KeyboardHookInterface;
 import com.jacob.com.Variant;
 import com.sun.deploy.util.StringUtils;
 import com.sun.jna.platform.win32.*;
@@ -23,7 +24,7 @@ import java.util.*;
  * @Author: huangwentao
  * @Date: 2018/8/14 16:40
  */
-public class KeyboardHook implements Runnable {
+public class KeyboardHook extends KeyboardHookInterface implements Runnable {
     private WinUser.HHOOK hhk;
 
 
