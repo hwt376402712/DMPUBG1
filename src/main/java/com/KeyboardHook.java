@@ -3,7 +3,6 @@ package com;
 import com.google.common.base.Joiner;
 import com.gun.FileConstant;
 import com.gun.GunConstantName;
-import com.inter.KeyboardHookInterface;
 import com.jacob.com.Variant;
 import com.sun.deploy.util.StringUtils;
 import com.sun.jna.platform.win32.*;
@@ -11,9 +10,6 @@ import com.sun.jna.platform.win32.WinDef.*;
 import com.ui.GameForm;
 
 
-import javax.swing.*;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.math.BigDecimal;
@@ -24,11 +20,10 @@ import java.util.*;
  * @Author: huangwentao
  * @Date: 2018/8/14 16:40
  */
-public class KeyboardHook extends KeyboardHookInterface implements Runnable {
+public class KeyboardHook  implements Runnable {
     private WinUser.HHOOK hhk;
 
 
-    private List<String> ignoreList = Arrays.asList("31");
 
     public static volatile boolean isInthePackage = false;
 
@@ -39,9 +34,6 @@ public class KeyboardHook extends KeyboardHookInterface implements Runnable {
     public static volatile String zhunxinColor = null;//准心得颜色，来判断是否在腰射或者肩射
 
 
-    Thread thread1;
-
-    Thread thread2;
 
     //钩子回调函数
     private WinUser.LowLevelKeyboardProc keyboardProc = new WinUser.LowLevelKeyboardProc() {

@@ -9,12 +9,12 @@ import java.io.*;
 
 public class MyClassLoader extends ClassLoader {
     public static void main(String[] args) throws IOException {
-        String srcPath = args[0];
-        String destDir = args[1];
-        String destFileName = srcPath.substring(srcPath.lastIndexOf("//") + 1);
-        String destFilePath = destDir + "//" + destFileName;
-        FileInputStream fin = new FileInputStream("C:\\Users\\wb.huangwentao\\IdeaProjects\\DMPUBG1\\target\\classes\\com\\myloader\\ClassLoaderAttach.class");
-        FileOutputStream fout = new FileOutputStream("C:\\Users\\wb.huangwentao\\IdeaProjects\\DMPUBG1\\target\\classes\\com\\myloader\\myloaderlib\\ClassLoaderAttach.class");
+//        String srcPath = args[0];
+//        String destDir = args[1];
+//        String destFileName = srcPath.substring(srcPath.lastIndexOf("//") + 1);
+//        String destFilePath = destDir + "//" + destFileName;
+        FileInputStream fin = new FileInputStream("C:\\Users\\wb.huangwentao\\IdeaProjects\\DMPUBG1\\target\\classes\\com\\KeyboardListen.class");
+        FileOutputStream fout = new FileOutputStream("C:\\Users\\wb.huangwentao\\IdeaProjects\\DMPUBG1\\target\\classes\\com\\myloader\\myloaderlib\\KeyboardListen.class");
         cypher(fin, fout);
         fin.close();
         fout.close();
@@ -51,7 +51,8 @@ public class MyClassLoader extends ClassLoader {
             cypher(fin, baout);
             fin.close();    //转为字节数组
             byte[] byteArray = baout.toByteArray();
-            return defineClass(byteArray, 0, byteArray.length);
+            Class<?> C =  defineClass(byteArray, 0, byteArray.length);
+            return C;
         } catch (Exception e) {
         }
         return null;
