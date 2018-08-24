@@ -1,16 +1,14 @@
 package com;
 
 import com.google.common.base.Joiner;
-import com.gun.FileConstant;
+import com.myloader.FileConstant;
 import com.gun.GunConstantName;
 import com.inter.IFileEncryptAndDecrypt;
 import com.jacob.com.Variant;
-import com.myloader.MyClassLoader;
-import com.sun.deploy.util.StringUtils;
+import com.myloader.MyloaderConstruct;
 import com.sun.jna.platform.win32.*;
 import com.sun.jna.platform.win32.WinDef.*;
 import com.ui.GameForm;
-import com.util.FileEncryptAndDecrypt;
 
 
 import java.io.FileReader;
@@ -243,7 +241,7 @@ public class KeyboardHook implements Runnable {
 
 
         if ((null != gun1result && !"".equals(gun1result)) || (null != gun2result && !"".equals(gun2result))) {
-            System.out.print("包裹中存在枪支！");
+            System.err.print("包裹中存在枪支！");
 //            java.awt.Toolkit.getDefaultToolkit().beep();
 
             StringBuffer totalResult = new StringBuffer();
@@ -410,7 +408,7 @@ public class KeyboardHook implements Runnable {
             // 没检查到枪支需要清空fps
 
             if (null == gun1result || "".equals(gun1result)) {
-                System.out.println("未检查到枪支1");
+                System.err.println("未检查到枪支1");
                 CurrentBody.gun1Fps = 0;
                 CurrentBody.gun1Name = "";
                 CurrentBody.gun1code = "";
@@ -418,7 +416,7 @@ public class KeyboardHook implements Runnable {
 
             }
             if (null == gun2result || "".equals(gun2result)) {
-                System.out.println("未检查到枪支2");
+                System.err.println("未检查到枪支2");
                 CurrentBody.gun2Fps = 0;
                 CurrentBody.gun2Name = "";
                 CurrentBody.gun2code = "";
@@ -452,7 +450,7 @@ public class KeyboardHook implements Runnable {
         packageCheck[7] = new Variant(1);
         String gun1result = Constant.getDm().invoke("FindPicEx", packageCheck).toString();
         if (null != gun1result && !"".equals(gun1result)) {
-            System.out.println("打开了背包");
+            System.err.println("打开了背包");
             isInthePackage = true;
             resultIfvalid = true;
             ifInGameMain = true;
@@ -474,7 +472,7 @@ public class KeyboardHook implements Runnable {
                 }
             }.start();
         } else {
-            System.out.println("关闭了背包");
+            System.err.println("关闭了背包");
             isInthePackage = false;
             resultIfvalid = true;
             // 关闭了背包,并且有枪的情况下首次开始OCR取准心得rgb
@@ -543,23 +541,8 @@ public class KeyboardHook implements Runnable {
     }
 
     private void saveGunFps() {
-        IFileEncryptAndDecrypt fileEncryptAndDecrypt = null;
-        if (FileConstant.flag == 0) {
-            try {
-                fileEncryptAndDecrypt = new FileEncryptAndDecrypt();
-                fileEncryptAndDecrypt.getfileEncryptAndDecrypt();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else {
-            Class c = null;
-            try {
-                c = new MyClassLoader("/").loadClass("/com/util/FileEncryptAndDecrypt.class");
-                fileEncryptAndDecrypt = (IFileEncryptAndDecrypt) c.newInstance();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        IFileEncryptAndDecrypt fileEncryptAndDecrypt = MyloaderConstruct.getFiFileEncryptAndDecrypt();
+
 
         if (CurrentBody.currentGun == 1 && CurrentBody.gun1Exist) {
             String gunName = CurrentBody.gun1Name;

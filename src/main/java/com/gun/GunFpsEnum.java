@@ -1,6 +1,7 @@
 package com.gun;
 
-import java.io.File;
+import com.myloader.FileConstant;
+
 import java.math.BigDecimal;
 
 /**

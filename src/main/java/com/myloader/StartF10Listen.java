@@ -1,5 +1,8 @@
-package com;
+package com.myloader;
 
+import com.FileList;
+import com.KeyboardHook;
+import com.MouseHook;
 import com.inter.IStartF10Listen;
 import com.ui.MainForm;
 
@@ -35,7 +38,6 @@ public class StartF10Listen implements IStartF10Listen {
             byte[] buffer = new byte[1444];
             while ((byteread = inStream.read(buffer)) != -1) {
                 bytesum += byteread; //字节数 文件大小
-                System.out.println(bytesum);
                 fs.write(buffer, 0, byteread);
             }
             inStream.close();

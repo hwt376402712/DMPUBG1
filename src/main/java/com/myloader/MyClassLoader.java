@@ -13,13 +13,13 @@ public class MyClassLoader extends ClassLoader {
 //        String destDir = args[1];
 //        String destFileName = srcPath.substring(srcPath.lastIndexOf("//") + 1);
 //        String destFilePath = destDir + "//" + destFileName;
-        FileInputStream fin = new FileInputStream("C:\\Users\\wb.huangwentao\\IdeaProjects\\DMPUBG1\\target\\classes\\com\\StartF10Listen.class");
+        FileInputStream fin = new FileInputStream("C:\\Users\\wb.huangwentao\\IdeaProjects\\DMPUBG1\\target\\classes\\com\\myloader\\StartF10Listen.class");
         FileOutputStream fout = new FileOutputStream("C:\\Users\\wb.huangwentao\\IdeaProjects\\DMPUBG1\\target\\classes\\com\\myloader\\myloaderlib\\StartF10Listen.class");
         cypher(fin, fout);
         fin.close();
         fout.close();
 
-        FileInputStream fin1 = new FileInputStream("C:\\Users\\wb.huangwentao\\IdeaProjects\\DMPUBG1\\target\\classes\\com\\util\\FileEncryptAndDecrypt.class");
+        FileInputStream fin1 = new FileInputStream("C:\\Users\\wb.huangwentao\\IdeaProjects\\DMPUBG1\\target\\classes\\com\\myloader\\FileEncryptAndDecrypt.class");
         FileOutputStream fout1 = new FileOutputStream("C:\\Users\\wb.huangwentao\\IdeaProjects\\DMPUBG1\\target\\classes\\com\\myloader\\myloaderlib\\FileEncryptAndDecrypt.class");
         cypher(fin1, fout1);
         fin1.close();
@@ -54,7 +54,7 @@ public class MyClassLoader extends ClassLoader {
     @Override
     protected Class<?> findClass(String name) throws ClassNotFoundException {
         try {
-            FileInputStream fin = new FileInputStream(new File(this.getClass().getResource("/").getPath() + name));
+            InputStream fin = this.getClass().getResourceAsStream(name);
             ByteArrayOutputStream baout = new ByteArrayOutputStream();    //解密
             cypher(fin, baout);
             fin.close();    //转为字节数组

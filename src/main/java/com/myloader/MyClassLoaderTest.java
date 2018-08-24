@@ -13,10 +13,10 @@ public class MyClassLoaderTest {
     public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
 //        ClassLoaderAttach classLoaderAttach = new ClassLoaderAttach();
 //        System.out.println(classLoaderAttach.toString());
-        Class c = new MyClassLoader("/").loadClass("/com/myloader/ClassLoaderAttach.class");
-
-        ClassLoaderAttachInterface d = (ClassLoaderAttachInterface) c.newInstance();
-        System.out.println(d.whoIm());
+//        Class c = new MyClassLoader("/").loadClass("/com/myloader/ClassLoaderAttach.class");
+//
+//        ClassLoaderAttachInterface d = (ClassLoaderAttachInterface) c.newInstance();
+//        System.out.println(d.whoIm());
 
 
 

@@ -1,4 +1,4 @@
-package com.util;
+package com.myloader;
 
 /**
  * @Author: huangwentao
@@ -20,7 +20,6 @@ import javax.crypto.spec.IvParameterSpec;
 
 
 import com.FileList;
-import com.gun.FileConstant;
 import com.inter.IFileEncryptAndDecrypt;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;

@@ -1,14 +1,9 @@
 package com;
 
-import com.google.common.base.Joiner;
-import com.gun.FileConstant;
-import com.gun.GunConstantName;
-import com.gun.GunFpsEnum;
 import com.jacob.activeX.ActiveXComponent;
 import com.jacob.com.Variant;
 
 import java.io.*;
-import java.util.Properties;
 
 /**
  * @Author: huangwentao

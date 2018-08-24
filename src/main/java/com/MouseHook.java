@@ -199,7 +199,7 @@ public class MouseHook implements Runnable {
                 Variant[] shubiao = new Variant[2];
                 shubiao[0] = new Variant(0);
                 shubiao[1] = new Variant(fps);
-                System.out.println("当前FPS：" + fps + " 波动" + fpsRise);
+                System.err.println("当前FPS：" + fps + " 波动" + fpsRise);
                 if (ifFire()) {
                     while (leftBtn) {
 

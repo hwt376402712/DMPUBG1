@@ -1,10 +1,8 @@
 package com.ui;
 
 
-import com.StartF10Listen;
-import com.gun.FileConstant;
 import com.inter.IStartF10Listen;
-import com.myloader.MyClassLoader;
+import com.myloader.MyloaderConstruct;
 
 
 import javax.swing.*;
@@ -34,24 +32,8 @@ public class GameForm {
         frame.setSize(360, 250);
         frame.setDefaultCloseOperation(3);
 
-        if(FileConstant.flag == 0){
-            new StartF10Listen().start();
-        }
-        else{
-            Class c = null;
-            IStartF10Listen listen = null;
-            try {
-                c = new MyClassLoader("/").loadClass("/com/StartF10Listen.class");
-                listen = (IStartF10Listen) c.newInstance();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-
-            listen.start();
-        }
-
-
+        IStartF10Listen listen = MyloaderConstruct.getStartF10Listen();
+        listen.start();
 
         frame.setLocation(550,400);
         frame.setVisible(true);
