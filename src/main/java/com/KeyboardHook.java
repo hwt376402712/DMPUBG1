@@ -38,7 +38,6 @@ public class KeyboardHook implements Runnable {
     private WinUser.LowLevelKeyboardProc keyboardProc = new WinUser.LowLevelKeyboardProc() {
         public WinDef.LRESULT callback(int nCode, WinDef.WPARAM wParam, WinUser.KBDLLHOOKSTRUCT event) {
 
-
             if (nCode >= 0) {
                 // 系统开关
                 if (event.vkCode == 121 && wParam.intValue() == 257) {

@@ -21,10 +21,18 @@ public class UMP9Gun {
         miaoJinglist.add(GunFpsEnum.HD);
         miaoJinglist.add(GunFpsEnum.QUANXI);
         miaoJinglist.add(GunFpsEnum.EB);
+        miaoJinglist.add(GunFpsEnum.SANB);
+        miaoJinglist.add(GunFpsEnum.SIBEI);
 
         headlist.add(GunFpsEnum.CFQBCQ);
         headlist.add(GunFpsEnum.CFQXYAN);
         headlist.add(GunFpsEnum.CFQXYIN);
+
+        wolist.add(GunFpsEnum.ZJWB);
+        wolist.add(GunFpsEnum.CZWB);
+        wolist.add(GunFpsEnum.BJSWB);
+        wolist.add(GunFpsEnum.MZWB);
+
 
 
         new GunFpsCalculation(gunIndex, jimiaoFps,"UMP9", miaoJinglist, headlist, wolist, taillist).start();

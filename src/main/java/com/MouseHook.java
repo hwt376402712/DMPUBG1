@@ -8,6 +8,8 @@ import com.sun.jna.platform.win32.WinDef;
 import com.sun.jna.platform.win32.WinUser;
 import com.ui.GameForm;
 
+import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
 
 /**
@@ -46,15 +48,17 @@ public class MouseHook implements Runnable {
 
     static boolean start = false;
     static volatile boolean leftBtn = true;
-
+    static volatile boolean rightBtn = false;
     static volatile boolean middleBtn = false;
+    static volatile boolean Pjian = false;
 
-
-    static Long anxia = null;
+    static Long leftAnxia = null;
     static Long anxiaNow = null;
 
     static Long middleAnxia = null;
     static Long middleAnxiaNow = null;
+
+    static Long leftAnxia2 = null;
 
 
     static volatile long fps = 0;// 获取枪配件更改这个值
@@ -125,7 +129,11 @@ public class MouseHook implements Runnable {
                             case MouseHook.WM_LBUTTONDOWN:
 //                                System.err.println("mouseLeft down left button down, x=" + lParam.pt.x + " y=" + lParam.pt.y);
                                 leftBtn = true;
+
                                 startMouserMove();
+
+                                //一键肩射
+                                startJianshe();
 
 
                                 break;
@@ -133,17 +141,22 @@ public class MouseHook implements Runnable {
 
                             case MouseHook.WM_LBUTTONUP:
 //                                System.err.println("mouseLeft up left button up, x=" + lParam.pt.x + " y=" + lParam.pt.y);
-                                leftBtn = false;
-                                anxia = null;
-                                anxiaNow = null;
 
+
+                                stopJianshe();
+                                leftBtn = false;
+                                leftAnxia = null;
+                                anxiaNow = null;
+                                leftAnxia2 = null;
                                 break;
                             case MouseHook.WM_RBUTTONDOWN:
 //                                System.err.println("mouseRight down right button up, x=" + lParam.pt.x + " y=" + lParam.pt.y);
+                                rightBtn = true;
                                 break;
                             case MouseHook.WM_RBUTTONUP:
 //                                System.err.println("mouseRight up right button up, x=" + lParam.pt.x + " y=" + lParam.pt.y);
-                                anxia = null;
+                                rightBtn = false;
+                                leftAnxia = null;
                                 anxiaNow = null;
                                 break;
                             case MouseHook.WM_MBUTTONDOWN:
@@ -179,16 +192,66 @@ public class MouseHook implements Runnable {
     static void stopMouseListen() {
         start = false;
         leftBtn = false;
-        anxia = null;
+        leftAnxia = null;
         anxiaNow = null;
     }
 
     static void startMouseListen() {
         start = true;
         leftBtn = false;
-        anxia = null;
+        leftAnxia = null;
         anxiaNow = null;
     }
+
+
+    public void startJianshe() {
+
+        new Thread() {
+            public void run() {
+                while (leftBtn && !rightBtn) {
+                    if (null == leftAnxia2) {
+                        leftAnxia2 = System.currentTimeMillis();
+                    } else {
+                        // 左键按下间隔小于0.1秒，单点，不压枪
+                        if (System.currentTimeMillis() - leftAnxia2 > 100) {
+
+                            try {
+                                Robot myRobot = new Robot();
+
+                                myRobot.keyPress(KeyEvent.VK_P);
+                                Pjian = true;
+                                break;
+                            } catch (Exception e) {
+
+                            }
+
+                        }
+
+
+                    }
+
+
+                }
+            }
+        }.start();
+
+
+    }
+
+    public void stopJianshe() {
+        try {
+            if (Pjian) {
+                Robot myRobot = new Robot();
+
+                myRobot.keyRelease(KeyEvent.VK_P);
+                Pjian = false;
+            }
+
+        } catch (Exception e) {
+
+        }
+    }
+
 
     public void startMouserMove() {
         manThread = new Thread() {
@@ -203,24 +266,24 @@ public class MouseHook implements Runnable {
                 if (ifFire()) {
                     while (leftBtn) {
 
-                        if (null == anxia) {
-                            anxia = System.currentTimeMillis();
+                        if (null == leftAnxia) {
+                            leftAnxia = System.currentTimeMillis();
                         } else {
                             // 左键按下间隔小于0.1秒，单点，不压枪
-                            if (System.currentTimeMillis() - anxia > 100) {
+                            if (System.currentTimeMillis() - leftAnxia > 100) {
 
                                 if (null == anxiaNow) {
                                     anxiaNow = System.currentTimeMillis();
                                 } else {
                                     // 开枪的后半部分抖动递增，需要波动计算
                                     if (System.currentTimeMillis() - anxiaNow > 30) {
-                                        if (System.currentTimeMillis() - anxia < 700) {
+                                        if (System.currentTimeMillis() - leftAnxia < 700) {
                                             shubiao[1] = shubiao[1];
                                         }
-                                        if (System.currentTimeMillis() - anxia >= 700 && System.currentTimeMillis() - anxia < 1500) {
+                                        if (System.currentTimeMillis() - leftAnxia >= 700 && System.currentTimeMillis() - leftAnxia < 1500) {
                                             shubiao[1] = new Variant(fpsRise.multiply(new BigDecimal(fps)).longValue());
                                         }
-                                        if (System.currentTimeMillis() - anxia >= 1500) {
+                                        if (System.currentTimeMillis() - leftAnxia >= 1500) {
                                             shubiao[1] = new Variant(fpsRise.multiply(new BigDecimal(fps)).add(new BigDecimal(0.4)).longValue());
                                         }
                                         Constant.getDm().invoke("MoveR", shubiao);
@@ -281,7 +344,7 @@ public class MouseHook implements Runnable {
 
             }
         }
-      return false;
+        return false;
 
 
     }

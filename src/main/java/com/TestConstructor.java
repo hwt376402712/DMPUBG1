@@ -20,34 +20,48 @@ public class TestConstructor {
 
 
         try {
-            Thread.sleep(2000);
+            Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        Variant[] shubiao = new Variant[5];
-        shubiao[0] = new Variant(394378);
-        shubiao[1] = new Variant("normal");
-        shubiao[2] = new Variant("dx");
-        shubiao[3] = new Variant("normal");
-        shubiao[4] = new Variant(0);
 
 
-        long dm = activeDm.invoke("GetForegroundFocus").getInt();
+        Variant[] p = new Variant[1];
+        p [0] = new Variant(80);
+        Constant.getDm().invoke("KeyDown", p );
+
+
+        try {
+            Thread.sleep(4000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Constant.getDm().invoke("KeyUp", p );
+
+//        Variant[] shubiao = new Variant[5];
+//        shubiao[0] = new Variant(394378);
+//        shubiao[1] = new Variant("normal");
+//        shubiao[2] = new Variant("dx");
+//        shubiao[3] = new Variant("normal");
+//        shubiao[4] = new Variant(0);
+//
+//
+//        long dm = activeDm.invoke("GetForegroundFocus").getInt();
 
 //        System.out.print(dm);
 
 
 //
 
-        long i = activeDm.invoke("BindWindow", shubiao).getInt();
-
-
-
-        Variant[] screen = new Variant[2];
-        screen[0] = new Variant(1);
-        screen[1] = new Variant(7);
-
-       System.out.print(activeDm.invoke("Beep", screen));
+//        long i = activeDm.invoke("BindWindow", shubiao).getInt();
+//
+//
+//
+//        Variant[] screen = new Variant[2];
+//        screen[0] = new Variant(1);
+//        screen[1] = new Variant(7);
+//
+//       System.out.print(activeDm.invoke("Beep", screen));
 
 //
 //

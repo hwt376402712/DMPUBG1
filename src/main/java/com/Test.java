@@ -3,7 +3,9 @@ package com;
 import com.jacob.activeX.ActiveXComponent;
 import com.jacob.com.Dispatch;
 import com.jacob.com.Variant;
-
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 
 /**
@@ -14,21 +16,20 @@ public class Test {
 
     public static void main(String[] args) throws IOException {
 
-//        new TestCons
-
-        ActiveXComponent dm = new ActiveXComponent("dm.dmsoft");
+//        new TestConstructor();
 
 
-        System.out.println(dm.invoke("Ver").getString());
+        try
+        {
+            Thread.sleep(2000);
+            Robot myRobot = new Robot();
 
-
-        Dispatch com = (Dispatch) dm.getObject();
-
-
-        Variant result = Dispatch.call(com, "FindWindow", "", "记事本");
-
-
-        System.out.println(result);
+            myRobot.keyPress(KeyEvent.VK_Q);		// 模拟键盘按下Q键（小写）
+//            myRobot.keyRelease(KeyEvent.VK_Q);
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
 
 
     }
