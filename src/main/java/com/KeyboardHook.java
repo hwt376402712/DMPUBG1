@@ -3,11 +3,14 @@ package com;
 import com.google.common.base.Joiner;
 import com.gun.FileConstant;
 import com.gun.GunConstantName;
+import com.inter.IFileEncryptAndDecrypt;
 import com.jacob.com.Variant;
+import com.myloader.MyClassLoader;
 import com.sun.deploy.util.StringUtils;
 import com.sun.jna.platform.win32.*;
 import com.sun.jna.platform.win32.WinDef.*;
 import com.ui.GameForm;
+import com.util.FileEncryptAndDecrypt;
 
 
 import java.io.FileReader;
@@ -20,9 +23,8 @@ import java.util.*;
  * @Author: huangwentao
  * @Date: 2018/8/14 16:40
  */
-public class KeyboardHook  implements Runnable {
+public class KeyboardHook implements Runnable {
     private WinUser.HHOOK hhk;
-
 
 
     public static volatile boolean isInthePackage = false;
@@ -32,7 +34,6 @@ public class KeyboardHook  implements Runnable {
     public static volatile boolean ifInGameMain = false;//是否已经进入了游戏主画面，为准信的ocr取色作用
 
     public static volatile String zhunxinColor = null;//准心得颜色，来判断是否在腰射或者肩射
-
 
 
     //钩子回调函数
@@ -240,6 +241,7 @@ public class KeyboardHook  implements Runnable {
             CurrentBody.gun2Exist = true;
         }
 
+
         if ((null != gun1result && !"".equals(gun1result)) || (null != gun2result && !"".equals(gun2result))) {
             System.out.print("包裹中存在枪支！");
 //            java.awt.Toolkit.getDefaultToolkit().beep();
@@ -256,6 +258,7 @@ public class KeyboardHook  implements Runnable {
                     totalResult.append(gun2result);
                 }
             }
+
 
             String names[] = totalResult.toString().split("\\|");
             if (names.length <= 2) {
@@ -448,7 +451,6 @@ public class KeyboardHook  implements Runnable {
         packageCheck[6] = new Variant(0.9);
         packageCheck[7] = new Variant(1);
         String gun1result = Constant.getDm().invoke("FindPicEx", packageCheck).toString();
-
         if (null != gun1result && !"".equals(gun1result)) {
             System.out.println("打开了背包");
             isInthePackage = true;
@@ -541,6 +543,24 @@ public class KeyboardHook  implements Runnable {
     }
 
     private void saveGunFps() {
+        IFileEncryptAndDecrypt fileEncryptAndDecrypt = null;
+        if (FileConstant.flag == 0) {
+            try {
+                fileEncryptAndDecrypt = new FileEncryptAndDecrypt();
+                fileEncryptAndDecrypt.getfileEncryptAndDecrypt();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            Class c = null;
+            try {
+                c = new MyClassLoader("/").loadClass("/com/util/FileEncryptAndDecrypt.class");
+                fileEncryptAndDecrypt = (IFileEncryptAndDecrypt) c.newInstance();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
         if (CurrentBody.currentGun == 1 && CurrentBody.gun1Exist) {
             String gunName = CurrentBody.gun1Name;
             String gunCode = CurrentBody.gun1code;
@@ -551,7 +571,7 @@ public class KeyboardHook  implements Runnable {
                 reader = new FileReader(new FileConstant().getPath(gunName + ".properties"));
                 Properties p = new Properties();
                 p.load(reader);
-                p.setProperty(gunCode, fps + "," + fpsRise);
+                p.setProperty(gunCode, fileEncryptAndDecrypt.encode(fps + "," + fpsRise));
                 FileWriter writer = new FileWriter(new FileConstant().getPath(gunName + ".properties"));
                 p.store(writer, "新增枪数据");
                 reader.close();
@@ -571,7 +591,7 @@ public class KeyboardHook  implements Runnable {
                 reader = new FileReader(new FileConstant().getPath(gunName + ".properties"));
                 Properties p = new Properties();
                 p.load(reader);
-                p.setProperty(gunCode, fps + "," + fpsRise);
+                p.setProperty(gunCode, fileEncryptAndDecrypt.encode(fps + "," + fpsRise));
                 FileWriter writer = new FileWriter(new FileConstant().getPath(gunName + ".properties"));
                 p.store(writer, "新增枪数据");
                 reader.close();

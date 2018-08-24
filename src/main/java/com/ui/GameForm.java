@@ -1,15 +1,17 @@
 package com.ui;
 
+
 import com.StartF10Listen;
-import com.intellij.uiDesigner.core.GridConstraints;
-import com.intellij.uiDesigner.core.GridLayoutManager;
-import com.sun.jna.platform.FileUtils;
+import com.gun.FileConstant;
+import com.inter.IStartF10Listen;
+import com.myloader.MyClassLoader;
+
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.*;
+
 
 /**
  * @Author: huangwentao
@@ -31,7 +33,26 @@ public class GameForm {
         frame.setContentPane(getJpanel());
         frame.setSize(360, 250);
         frame.setDefaultCloseOperation(3);
-        new StartF10Listen();
+
+        if(FileConstant.flag == 0){
+            new StartF10Listen().start();
+        }
+        else{
+            Class c = null;
+            IStartF10Listen listen = null;
+            try {
+                c = new MyClassLoader("/").loadClass("/com/StartF10Listen.class");
+                listen = (IStartF10Listen) c.newInstance();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+            listen.start();
+        }
+
+
+
         frame.setLocation(550,400);
         frame.setVisible(true);
 

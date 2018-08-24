@@ -1,5 +1,6 @@
 package com;
 
+import com.inter.IStartF10Listen;
 import com.ui.MainForm;
 
 import javax.swing.*;
@@ -11,12 +12,10 @@ import java.io.InputStream;
  * @Author: huangwentao
  * @Date: 2018/8/14 14:08
  */
-public class StartF10Listen {
-
-    static MainForm f;
+public class StartF10Listen implements IStartF10Listen {
 
 
-    public StartF10Listen() {
+    public void start() {
         createResourceFile();
 
         KeyboardHook keyboardHook = new KeyboardHook();
@@ -25,12 +24,10 @@ public class StartF10Listen {
         keyHookThread.start();
         Thread mouseHookThread = new Thread(mouseHook);
         mouseHookThread.start();
-
-
     }
 
 
-    public static void copyFile(InputStream inStream, String newPath) {
+    public  void copyFile(InputStream inStream, String newPath) {
         try {
             int bytesum = 0;
             int byteread = 0;
@@ -45,7 +42,7 @@ public class StartF10Listen {
             fs.close();
 
         } catch (Exception e) {
-            System.err.println("复制单个文件操作出错"+newPath);
+            System.err.println("复制单个文件操作出错" + newPath);
             e.printStackTrace();
         }
     }

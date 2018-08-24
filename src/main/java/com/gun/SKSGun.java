@@ -5,7 +5,7 @@ import java.util.List;
 
 public class SKSGun {
 
-    public long jimiaoFps =0;
+    public long jimiaoFps =5;
 
 
     public SKSGun(int gunIndex) {

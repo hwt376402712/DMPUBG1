@@ -7,7 +7,7 @@ import java.io.InputStream;
 
 public class FileConstant {
 
-    int flag = 0;//0 开发环境 1线上
+   public static int flag = 0;//0 开发环境 1线上
 
     public String getPath(String name) {
         if (flag == 0) {

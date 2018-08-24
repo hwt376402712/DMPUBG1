@@ -13,11 +13,19 @@ public class MyClassLoader extends ClassLoader {
 //        String destDir = args[1];
 //        String destFileName = srcPath.substring(srcPath.lastIndexOf("//") + 1);
 //        String destFilePath = destDir + "//" + destFileName;
-        FileInputStream fin = new FileInputStream("C:\\Users\\wb.huangwentao\\IdeaProjects\\DMPUBG1\\target\\classes\\com\\KeyboardListen.class");
-        FileOutputStream fout = new FileOutputStream("C:\\Users\\wb.huangwentao\\IdeaProjects\\DMPUBG1\\target\\classes\\com\\myloader\\myloaderlib\\KeyboardListen.class");
+        FileInputStream fin = new FileInputStream("C:\\Users\\wb.huangwentao\\IdeaProjects\\DMPUBG1\\target\\classes\\com\\StartF10Listen.class");
+        FileOutputStream fout = new FileOutputStream("C:\\Users\\wb.huangwentao\\IdeaProjects\\DMPUBG1\\target\\classes\\com\\myloader\\myloaderlib\\StartF10Listen.class");
         cypher(fin, fout);
         fin.close();
         fout.close();
+
+        FileInputStream fin1 = new FileInputStream("C:\\Users\\wb.huangwentao\\IdeaProjects\\DMPUBG1\\target\\classes\\com\\util\\FileEncryptAndDecrypt.class");
+        FileOutputStream fout1 = new FileOutputStream("C:\\Users\\wb.huangwentao\\IdeaProjects\\DMPUBG1\\target\\classes\\com\\myloader\\myloaderlib\\FileEncryptAndDecrypt.class");
+        cypher(fin1, fout1);
+        fin1.close();
+        fout1.close();
+
+
     }
 
     /**

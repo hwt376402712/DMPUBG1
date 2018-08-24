@@ -4,7 +4,11 @@ import com.Constant;
 import com.CurrentBody;
 import com.KeyboardHook;
 import com.google.common.base.Joiner;
+import com.inter.IFileEncryptAndDecrypt;
+import com.inter.IStartF10Listen;
 import com.jacob.com.Variant;
+import com.myloader.MyClassLoader;
+import com.util.FileEncryptAndDecrypt;
 
 import java.io.File;
 import java.io.IOException;
@@ -180,17 +184,34 @@ public class GunFpsCalculation extends Thread {
                 Set<Map.Entry<Object, Object>> entrySet = properties.entrySet();//返回的属性键值对实体
                 boolean ifDict = false;
                 for (Map.Entry<Object, Object> entry : entrySet) {
+                    String value = null;
+                    if (FileConstant.flag == 0) {
+                        FileEncryptAndDecrypt fileEncryptAndDecrypt = new FileEncryptAndDecrypt();
+                        fileEncryptAndDecrypt.getfileEncryptAndDecrypt();
+                        value = fileEncryptAndDecrypt.decode(entry.getValue().toString());
+                    } else {
+                        Class c = null;
+                        IFileEncryptAndDecrypt fileEncryptAndDecrypt = null;
+                        try {
+                            c = new MyClassLoader("/").loadClass("/com/util/FileEncryptAndDecrypt.class");
+                            fileEncryptAndDecrypt = (IFileEncryptAndDecrypt) c.newInstance();
+                            fileEncryptAndDecrypt.getfileEncryptAndDecrypt();
+                            value = fileEncryptAndDecrypt.decode(entry.getValue().toString());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
 
                     if (entry.getKey().equals(code)) {
                         ifDict = true;
                         if (gunIndex == 1) {
-                            CurrentBody.gun1Fps = Long.valueOf(entry.getValue().toString().split("\\,")[0]);
-                            CurrentBody.gun1FpsRise = new BigDecimal(entry.getValue().toString().split("\\,")[1]);
+                            CurrentBody.gun1Fps = Long.valueOf(value.split("\\,")[0]);
+                            CurrentBody.gun1FpsRise = new BigDecimal(value.split("\\,")[1]);
                             System.out.println("设置当前" + gunProperty + gunIndex + "的fps为：" + CurrentBody.gun1Fps + " 波动为" + CurrentBody.gun1FpsRise);
 
                         } else {
-                            CurrentBody.gun2Fps = Long.valueOf(entry.getValue().toString().split("\\,")[0]);
-                            CurrentBody.gun2FpsRise = new BigDecimal(entry.getValue().toString().split("\\,")[1]);
+                            CurrentBody.gun2Fps = Long.valueOf(value.split("\\,")[0]);
+                            CurrentBody.gun2FpsRise = new BigDecimal(value.split("\\,")[1]);
                             System.out.println("设置当前" + gunProperty + gunIndex + "的fps为：" + CurrentBody.gun1Fps + " 波动为" + CurrentBody.gun2FpsRise);
                         }
                     }
@@ -199,7 +220,7 @@ public class GunFpsCalculation extends Thread {
 
                 in.close();
 
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
@@ -213,26 +234,41 @@ public class GunFpsCalculation extends Thread {
                     InputStream in = new FileConstant().getInputStram(gunProperty + ".properties");
                     properties.load(in);
                     Set<Map.Entry<Object, Object>> entrySet = properties.entrySet();//返回的属性键值对实体
-                    boolean ifDict = false;
                     for (Map.Entry<Object, Object> entry : entrySet) {
+                        String value = null;
+                        if (FileConstant.flag == 0) {
+                            FileEncryptAndDecrypt fileEncryptAndDecrypt = new FileEncryptAndDecrypt();
+                            fileEncryptAndDecrypt.getfileEncryptAndDecrypt();
+                            value = fileEncryptAndDecrypt.decode(entry.getValue().toString());
+                        } else {
+                            Class c = null;
+                            IFileEncryptAndDecrypt fileEncryptAndDecrypt = null;
+                            try {
+                                c = new MyClassLoader("/").loadClass("/com/util/FileEncryptAndDecrypt.class");
+                                fileEncryptAndDecrypt = (IFileEncryptAndDecrypt) c.newInstance();
+                                fileEncryptAndDecrypt.getfileEncryptAndDecrypt();
+                                value = fileEncryptAndDecrypt.decode(entry.getValue().toString());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
 
                         if (entry.getKey().equals(code)) {
-                            ifDict = true;
                             if (gunIndex == 1) {
-                                CurrentBody.gun1Fps = Long.valueOf(entry.getValue().toString().split("\\,")[0]);
-                                CurrentBody.gun1FpsRise = new BigDecimal(entry.getValue().toString().split("\\,")[1]);
+                                CurrentBody.gun1Fps = Long.valueOf(value.split("\\,")[0]);
+                                CurrentBody.gun1FpsRise = new BigDecimal(value.split("\\,")[1]);
                                 System.out.println("设置当前" + gunProperty + gunIndex + "的fps为：" + CurrentBody.gun1Fps + " 波动为" + CurrentBody.gun1FpsRise);
 
                             } else {
-                                CurrentBody.gun2Fps = Long.valueOf(entry.getValue().toString().split("\\,")[0]);
-                                CurrentBody.gun2FpsRise = new BigDecimal(entry.getValue().toString().split("\\,")[1]);
+                                CurrentBody.gun2Fps = Long.valueOf(value.split("\\,")[0]);
+                                CurrentBody.gun2FpsRise = new BigDecimal(value.split("\\,")[1]);
                                 System.out.println("设置当前" + gunProperty + gunIndex + "的fps为：" + CurrentBody.gun1Fps + " 波动为" + CurrentBody.gun2FpsRise);
                             }
                         }
                     }
                     in.close();
 
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
