@@ -42,10 +42,16 @@ public class CurrentBody {
             if (gun1Exist) {
                 System.out.println("获取当前枪FPS，gun1Fps:" + gun1Fps);
                 currentGun = 1;
+                if(ifDunXia){
+                    return new BigDecimal(gun1Fps).multiply(new BigDecimal(0.8)).longValue();
+                }
                 return gun1Fps;
             } else if (gun2Exist) {
                 System.out.println("获取当前枪FPS，gun2Fps:" + gun1Fps);
                 currentGun = 2;
+                if(ifDunXia){
+                    return new BigDecimal(gun2Fps).multiply(new BigDecimal(0.8)).longValue();
+                }
                 return gun2Fps;
             } else {
                 return 0;
@@ -56,9 +62,15 @@ public class CurrentBody {
             } else {
                 if (1 == currentGun) {
                     if (gun1Exist) {
+                        if(ifDunXia){
+                            return new BigDecimal(gun1Fps).multiply(new BigDecimal(0.8)).longValue();
+                        }
                         return gun1Fps;
                     } else if (gun2Exist) {
                         currentGun = 2;
+                        if(ifDunXia){
+                            return new BigDecimal(gun2Fps).multiply(new BigDecimal(0.8)).longValue();
+                        }
                         return gun2Fps;
                     } else {
                         currentGun = 0;
@@ -67,9 +79,15 @@ public class CurrentBody {
 
                 } else if (2 == currentGun) {
                     if (gun2Exist) {
+                        if(ifDunXia){
+                            return new BigDecimal(gun2Fps).multiply(new BigDecimal(0.8)).longValue();
+                        }
                         return gun2Fps;
                     } else if (gun1Exist) {
                         currentGun = 1;
+                        if(ifDunXia){
+                            return new BigDecimal(gun1Fps).multiply(new BigDecimal(0.8)).longValue();
+                        }
                         return gun1Fps;
                     } else {
                         currentGun = 0;

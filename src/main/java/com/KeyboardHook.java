@@ -160,6 +160,13 @@ public class KeyboardHook implements Runnable {
 
 
                         }
+                        // 调高
+                        if (event.vkCode == Integer.parseInt(KeyCodeEnuam.TIAO.getKeyCode()) && wParam.intValue() == 257) {
+
+                            CurrentBody.ifDunXia = false;
+
+
+                        }
                         // 按下ESC退出
 //                if(event.vkCode==27) KeyboardHook.this.setHookOff();
                     }
@@ -424,7 +431,12 @@ public class KeyboardHook implements Runnable {
             if ((null == gun1result || "".equals(gun1result)) && (null == gun2result || "".equals(gun2result))) {
                 CurrentBody.currentGun = 0;
             }
-
+            if ((null == gun1result || "".equals(gun1result)) && (null != gun2result || !"".equals(gun2result))) {
+                CurrentBody.currentGun = 2;
+            }
+            if ((null == gun2result || "".equals(gun2result)) && (null != gun1result || !"".equals(gun1result))) {
+                CurrentBody.currentGun = 1;
+            }
 
         }
 

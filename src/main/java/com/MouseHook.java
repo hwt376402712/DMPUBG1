@@ -52,13 +52,13 @@ public class MouseHook implements Runnable {
     static volatile boolean middleBtn = false;
     static volatile boolean Pjian = false;
 
-    static Long leftAnxia = null;
+    static Long leftAnxia = 0L;
     static Long anxiaNow = null;
 
     static Long middleAnxia = null;
     static Long middleAnxiaNow = null;
 
-    static Long leftAnxia2 = null;
+    static Long leftAnxia2 = 0L;
 
 
     static volatile long fps = 0;// 获取枪配件更改这个值
@@ -123,6 +123,8 @@ public class MouseHook implements Runnable {
                 //回调监听
                 @Override
                 public WinDef.LRESULT callback(int nCode, WinDef.WPARAM wParam, MouseHookStruct lParam) {
+
+
                     if (nCode >= 0 && start) {
 
                         switch (wParam.intValue()) {
@@ -132,36 +134,37 @@ public class MouseHook implements Runnable {
                                 break;
                             case MouseHook.WM_LBUTTONDOWN:
 //                                System.err.println("mouseLeft down left button down, x=" + lParam.pt.x + " y=" + lParam.pt.y);
-                                if (!gunLianflag) {
-                                    leftBtn = true;
+
+                                leftBtn = true;
 
 
-                                    leftAnxia = System.currentTimeMillis();
-                                    leftAnxia2 = System.currentTimeMillis();
+                                leftAnxia = System.currentTimeMillis();
+                                leftAnxia2 = System.currentTimeMillis();
 
-                                    startMouserMove();
+                                startMouserMove();
 
-                                    //一键肩射
-                                    startJianshe();
+                                //一键肩射
+                                startJianshe();
 
 
-                                    // 连发M16
-                                    gunLianfa();
-                                }
+                                // 连发M16
+                                gunLianfa();
 
 
                                 break;
 
 
                             case MouseHook.WM_LBUTTONUP:
-//                                System.err.println("mouseLeft up left button up, x=" + lParam.pt.x + " y=" + lParam.pt.y);
+                                System.err.println("mouseLeft up left button up, x=" + lParam.pt.x + " y=" + lParam.pt.y);
                                 if (!gunLianflag) {
                                     stopJianshe();
 
                                     leftBtn = false;
-                                    leftAnxia = null;
+                                    leftAnxia = 0L;
                                     anxiaNow = null;
-                                    leftAnxia2 = null;
+                                    leftAnxia2 = 0L;
+                                } else {
+                                    gunLianflag = false;
                                 }
 
 
@@ -224,49 +227,53 @@ public class MouseHook implements Runnable {
 
 
     public void startJianshe() {
+        if (GameForm.leftYaoshe) {
+            new Thread() {
+                public void run() {
+                    if (!KeyboardHook.isInthePackage) {
+                        while (leftBtn && !rightBtn) {
 
-        new Thread() {
-            public void run() {
-                if (!KeyboardHook.isInthePackage) {
-                    while (leftBtn && !rightBtn) {
+                            // 左键按下间隔小于0.1秒，单点，不压枪
+                            if (System.currentTimeMillis() - leftAnxia2 > 100) {
 
-                        // 左键按下间隔小于0.1秒，单点，不压枪
-                        if (System.currentTimeMillis() - leftAnxia2 > 100) {
+                                try {
+                                    Robot myRobot = new Robot();
 
-                            try {
-                                Robot myRobot = new Robot();
+                                    myRobot.keyPress(KeyEvent.VK_P);
+                                    Pjian = true;
+                                    break;
+                                } catch (Exception e) {
 
-                                myRobot.keyPress(KeyEvent.VK_P);
-                                Pjian = true;
-                                break;
-                            } catch (Exception e) {
+                                }
 
                             }
 
+
                         }
-
-
                     }
-                }
 
-            }
-        }.start();
+                }
+            }.start();
+        }
 
 
     }
 
     public void stopJianshe() {
-        try {
-            if (Pjian) {
-                Robot myRobot = new Robot();
+        if (GameForm.leftYaoshe) {
+            try {
+                if (Pjian) {
+                    Robot myRobot = new Robot();
 
-                myRobot.keyRelease(KeyEvent.VK_P);
-                Pjian = false;
+                    myRobot.keyRelease(KeyEvent.VK_P);
+                    Pjian = false;
+                }
+
+            } catch (Exception e) {
+
             }
-
-        } catch (Exception e) {
-
         }
+
     }
 
 
@@ -367,7 +374,7 @@ public class MouseHook implements Runnable {
                     Variant[] lock = new Variant[4];
                     lock[0] = new Variant(208);
                     lock[1] = new Variant(0);
-                    lock[2] = new Variant(654);
+                    lock[2] = new Variant(854);
                     lock[3] = new Variant(1000);
 
                     Variant[] unlock = new Variant[4];
@@ -387,11 +394,11 @@ public class MouseHook implements Runnable {
 
 
                                 Variant[] shubiao = new Variant[2];
-                                shubiao[0] = new Variant(400);
+                                shubiao[0] = new Variant(600);
                                 shubiao[1] = new Variant(0);
 
                                 Variant[] shubiao2 = new Variant[2];
-                                shubiao2[0] = new Variant(-400);
+                                shubiao2[0] = new Variant(-600);
                                 shubiao2[1] = new Variant(0);
 
                                 try {
@@ -430,63 +437,60 @@ public class MouseHook implements Runnable {
     }
 
     public void gunLianfa() {
-        new Thread() {
-            @Override
-            public void run() {
-                if (ifFire()) {
 
-                    while (leftBtn) {
-                        // 左键按下间隔小于0.1秒，单点，不压枪
-                        if (System.currentTimeMillis() - leftAnxia > 100) {
-                            if (CurrentBody.currentGun == 1 && CurrentBody.gun1Exist && CurrentBody.gun1Name.equals("M16")) {
+        if (GameForm.M16Lianfa) {
+            new Thread() {
+                @Override
+                public void run() {
 
-                                try {
-                                    gunLianflag = true;
-                                    Constant.getDm().invoke("LeftUp");
-                                    Robot myRobot = new Robot();
-                                    myRobot.keyPress(KeyEvent.VK_I);
-                                    Thread.sleep(1);
+                    if (ifFire()) {
+                        while (leftBtn) {
+                            // 左键按下间隔小于0.1秒，单点，不压枪
+                            if (System.currentTimeMillis() - leftAnxia > 100) {
+                                if ((CurrentBody.currentGun == 1 && CurrentBody.gun1Exist && CurrentBody.gun1Name.equals("M16")) ||
+                                        CurrentBody.currentGun == 2 && CurrentBody.gun2Exist && CurrentBody.gun2Name.equals("M16")) {
 
-                                    Constant.getDm().invoke("LeftDown");
-                                    Thread.sleep(1);
-                                    myRobot.keyRelease(KeyEvent.VK_I);
-                                    while (leftBtn) {
-                                        gunLianflag = false;
-                                        myRobot.keyPress(KeyEvent.VK_I);
-                                        Thread.sleep(5);
-                                        myRobot.keyRelease(KeyEvent.VK_I);
-                                        Thread.sleep(5);
-                                        myRobot.keyPress(KeyEvent.VK_I);
-                                        Thread.sleep(5);
-                                        myRobot.keyRelease(KeyEvent.VK_I);
-                                        Thread.sleep(5);
-                                        Variant[] moveDown = new Variant[2];
-                                        moveDown[0] = new Variant(0);
-                                        moveDown[1] = new Variant(1);
-                                        Constant.getDm().invoke("MoveR", moveDown);
-                                        Thread.sleep(1);
+                                    try {
+                                        gunLianflag = true;
+                                        Constant.getDm().invoke("LeftUp");
+                                        Robot myRobot = new Robot();
+                                        while (leftBtn) {
+                                            for (int i = 0; i <= 6; i++) {
+                                                myRobot.keyPress(KeyEvent.VK_I);
+                                                Thread.sleep(2);
+                                                myRobot.keyRelease(KeyEvent.VK_I);
+                                                Thread.sleep(2);
+                                            }
+
+                                            Variant[] moveDown = new Variant[2];
+                                            moveDown[0] = new Variant(0);
+                                            moveDown[1] = new Variant(1);
+                                            Constant.getDm().invoke("MoveR", moveDown);
+                                            Thread.sleep(1);
 
 
+                                        }
+
+
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
                                     }
 
 
-                                } catch (Exception e) {
-                                    e.printStackTrace();
                                 }
-
 
                             }
 
+
                         }
 
-
                     }
-
                 }
-            }
 
 
-        }.start();
+            }.start();
+        }
+
 
     }
 
