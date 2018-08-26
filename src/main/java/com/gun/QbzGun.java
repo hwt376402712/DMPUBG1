@@ -8,8 +8,8 @@ public class QbzGun {
 
     public long jimiaoFps =7;
 
-
     public QbzGun(int gunIndex) {
+
 
         List<GunFpsEnum> miaoJinglist = new ArrayList<>();
         List<GunFpsEnum> headlist = new ArrayList<>();

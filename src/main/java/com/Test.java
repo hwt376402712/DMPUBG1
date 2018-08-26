@@ -18,18 +18,16 @@ public class Test {
 
 //        new TestConstructor();
 
+        while(true){
+            System.out.println(12312);
+            while(true){
+                System.out.println(888);
 
-        try
-        {
-            Thread.sleep(2000);
-            Robot myRobot = new Robot();
+            }
 
-            myRobot.keyPress(KeyEvent.VK_Q);		// 模拟键盘按下Q键（小写）
-//            myRobot.keyRelease(KeyEvent.VK_Q);
-        } catch (Exception e)
-        {
-            e.printStackTrace();
         }
+
+
 
 
     }

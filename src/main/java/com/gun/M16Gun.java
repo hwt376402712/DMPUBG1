@@ -8,7 +8,7 @@ import java.util.List;
  * @Date: 2018/8/21 15:45
  */
 public class M16Gun {
-    public long jimiaoFps = 0;
+    public long jimiaoFps = 10;
 
 
     public M16Gun(int gunIndex) {

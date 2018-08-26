@@ -64,6 +64,8 @@ public class MouseHook implements Runnable {
     static volatile long fps = 0;// 获取枪配件更改这个值
     static BigDecimal fpsRise = new BigDecimal(1);//枪的波动
 
+    static volatile boolean gunLianflag = false;// 连发按下鼠标的冲突
+
 
     public MouseHook() {
         isWindows = Platform.isWindows();
@@ -122,18 +124,30 @@ public class MouseHook implements Runnable {
                 @Override
                 public WinDef.LRESULT callback(int nCode, WinDef.WPARAM wParam, MouseHookStruct lParam) {
                     if (nCode >= 0 && start) {
+
                         switch (wParam.intValue()) {
                             case MouseHook.WM_MOUSEMOVE:
 //                                System.err.println("mouse move left button down, x=" + lParam.pt.x + " y=" + lParam.pt.y);
+
                                 break;
                             case MouseHook.WM_LBUTTONDOWN:
 //                                System.err.println("mouseLeft down left button down, x=" + lParam.pt.x + " y=" + lParam.pt.y);
-                                leftBtn = true;
+                                if (!gunLianflag) {
+                                    leftBtn = true;
 
-                                startMouserMove();
 
-                                //一键肩射
-                                startJianshe();
+                                    leftAnxia = System.currentTimeMillis();
+                                    leftAnxia2 = System.currentTimeMillis();
+
+                                    startMouserMove();
+
+                                    //一键肩射
+                                    startJianshe();
+
+
+                                    // 连发M16
+                                    gunLianfa();
+                                }
 
 
                                 break;
@@ -141,13 +155,16 @@ public class MouseHook implements Runnable {
 
                             case MouseHook.WM_LBUTTONUP:
 //                                System.err.println("mouseLeft up left button up, x=" + lParam.pt.x + " y=" + lParam.pt.y);
+                                if (!gunLianflag) {
+                                    stopJianshe();
+
+                                    leftBtn = false;
+                                    leftAnxia = null;
+                                    anxiaNow = null;
+                                    leftAnxia2 = null;
+                                }
 
 
-                                stopJianshe();
-                                leftBtn = false;
-                                leftAnxia = null;
-                                anxiaNow = null;
-                                leftAnxia2 = null;
                                 break;
                             case MouseHook.WM_RBUTTONDOWN:
 //                                System.err.println("mouseRight down right button up, x=" + lParam.pt.x + " y=" + lParam.pt.y);
@@ -172,6 +189,8 @@ public class MouseHook implements Runnable {
                                 break;
                         }
                     }
+
+
                     //将钩子信息传递到当前钩子链中的下一个子程，一个钩子程序可以调用这个函数之前或之后处理钩子信息
                     //hhk：当前钩子的句柄
                     //nCode ：钩子代码; 就是给下一个钩子要交待的，钩传递给当前Hook过程的代码。下一个钩子程序使用此代码，以确定如何处理钩的信息。
@@ -208,10 +227,9 @@ public class MouseHook implements Runnable {
 
         new Thread() {
             public void run() {
-                while (leftBtn && !rightBtn) {
-                    if (null == leftAnxia2) {
-                        leftAnxia2 = System.currentTimeMillis();
-                    } else {
+                if (!KeyboardHook.isInthePackage) {
+                    while (leftBtn && !rightBtn) {
+
                         // 左键按下间隔小于0.1秒，单点，不压枪
                         if (System.currentTimeMillis() - leftAnxia2 > 100) {
 
@@ -229,9 +247,8 @@ public class MouseHook implements Runnable {
 
 
                     }
-
-
                 }
+
             }
         }.start();
 
@@ -266,47 +283,39 @@ public class MouseHook implements Runnable {
                 if (ifFire()) {
                     while (leftBtn) {
 
-                        if (null == leftAnxia) {
-                            leftAnxia = System.currentTimeMillis();
-                        } else {
-                            // 左键按下间隔小于0.1秒，单点，不压枪
-                            if (System.currentTimeMillis() - leftAnxia > 100) {
+                        // 左键按下间隔小于0.1秒，单点，不压枪
+                        if (System.currentTimeMillis() - leftAnxia > 100) {
 
-                                if (null == anxiaNow) {
-                                    anxiaNow = System.currentTimeMillis();
-                                } else {
-                                    // 开枪的后半部分抖动递增，需要波动计算
-                                    if (System.currentTimeMillis() - anxiaNow > 30) {
-                                        if (System.currentTimeMillis() - leftAnxia < 700) {
-                                            shubiao[1] = shubiao[1];
-                                        }
-                                        if (System.currentTimeMillis() - leftAnxia >= 700 && System.currentTimeMillis() - leftAnxia < 1500) {
-                                            shubiao[1] = new Variant(fpsRise.multiply(new BigDecimal(fps)).longValue());
-                                        }
-                                        if (System.currentTimeMillis() - leftAnxia >= 1500) {
-                                            shubiao[1] = new Variant(fpsRise.multiply(new BigDecimal(fps)).add(new BigDecimal(0.4)).longValue());
-                                        }
-                                        Constant.getDm().invoke("MoveR", shubiao);
-                                        anxiaNow = System.currentTimeMillis();
+                            if (null == anxiaNow) {
+                                anxiaNow = System.currentTimeMillis();
+                            } else {
+                                // 开枪的后半部分抖动递增，需要波动计算
+                                if (System.currentTimeMillis() - anxiaNow > 30) {
+                                    if (System.currentTimeMillis() - leftAnxia < 700) {
+                                        shubiao[1] = shubiao[1];
                                     }
+                                    if (System.currentTimeMillis() - leftAnxia >= 700 && System.currentTimeMillis() - leftAnxia < 1500) {
+                                        shubiao[1] = new Variant(fpsRise.multiply(new BigDecimal(fps)).longValue());
+                                    }
+                                    if (System.currentTimeMillis() - leftAnxia >= 1500) {
+                                        shubiao[1] = new Variant(fpsRise.multiply(new BigDecimal(fps)).add(new BigDecimal(0.4)).longValue());
+                                    }
+                                    Constant.getDm().invoke("MoveR", shubiao);
+                                    anxiaNow = System.currentTimeMillis();
                                 }
-
-
                             }
 
 
                         }
 
 
-                        try {
-                            Thread.sleep(1);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
                     }
-                }
 
+
+                }
             }
+
+
         };
         manThread.start();
     }
@@ -350,17 +359,23 @@ public class MouseHook implements Runnable {
     }
 
     public void quickPick() {
+
         if (GameForm.quickPick) {
-            manThread = new Thread() {
+            new Thread() {
                 @Override
                 public void run() {
-                    Variant[] shubiao = new Variant[2];
-                    shubiao[0] = new Variant(500);
-                    shubiao[1] = new Variant(0);
+                    Variant[] lock = new Variant[4];
+                    lock[0] = new Variant(208);
+                    lock[1] = new Variant(0);
+                    lock[2] = new Variant(654);
+                    lock[3] = new Variant(1000);
 
-                    Variant[] shubiao2 = new Variant[2];
-                    shubiao2[0] = new Variant(-500);
-                    shubiao2[1] = new Variant(0);
+                    Variant[] unlock = new Variant[4];
+                    unlock[0] = new Variant(0);
+                    unlock[1] = new Variant(0);
+                    unlock[2] = new Variant(0);
+                    unlock[3] = new Variant(0);
+
 
                     while (middleBtn) {
 
@@ -369,15 +384,31 @@ public class MouseHook implements Runnable {
                         } else {
                             // 中键按下间隔小于0.1秒，单点
                             if (System.currentTimeMillis() - middleAnxia > 100) {
-                                Constant.getDm().invoke("LeftDown");
+
+
+                                Variant[] shubiao = new Variant[2];
+                                shubiao[0] = new Variant(400);
+                                shubiao[1] = new Variant(0);
+
+                                Variant[] shubiao2 = new Variant[2];
+                                shubiao2[0] = new Variant(-400);
+                                shubiao2[1] = new Variant(0);
+
                                 try {
+                                    Constant.getDm().invoke("LeftDown");
+                                    Constant.getDm().invoke("LockMouseRect", lock);
                                     Thread.sleep(30);
                                     Constant.getDm().invoke("MoveR", shubiao);
+
+
                                     Thread.sleep(30);
+                                    Constant.getDm().invoke("LockMouseRect", unlock);
                                     Constant.getDm().invoke("LeftUp");
+                                    Constant.getDm().invoke("LockMouseRect", lock);
                                     Thread.sleep(30);
                                     Constant.getDm().invoke("MoveR", shubiao2);
                                     Thread.sleep(30);
+                                    Constant.getDm().invoke("LockMouseRect", unlock);
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
                                 }
@@ -388,19 +419,74 @@ public class MouseHook implements Runnable {
 
                         }
 
-
-                        try {
-                            Thread.sleep(1);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
                     }
 
 
                 }
-            };
-            manThread.start();
+            }.start();
+
         }
+
+    }
+
+    public void gunLianfa() {
+        new Thread() {
+            @Override
+            public void run() {
+                if (ifFire()) {
+
+                    while (leftBtn) {
+                        // 左键按下间隔小于0.1秒，单点，不压枪
+                        if (System.currentTimeMillis() - leftAnxia > 100) {
+                            if (CurrentBody.currentGun == 1 && CurrentBody.gun1Exist && CurrentBody.gun1Name.equals("M16")) {
+
+                                try {
+                                    gunLianflag = true;
+                                    Constant.getDm().invoke("LeftUp");
+                                    Robot myRobot = new Robot();
+                                    myRobot.keyPress(KeyEvent.VK_I);
+                                    Thread.sleep(1);
+
+                                    Constant.getDm().invoke("LeftDown");
+                                    Thread.sleep(1);
+                                    myRobot.keyRelease(KeyEvent.VK_I);
+                                    while (leftBtn) {
+                                        gunLianflag = false;
+                                        myRobot.keyPress(KeyEvent.VK_I);
+                                        Thread.sleep(5);
+                                        myRobot.keyRelease(KeyEvent.VK_I);
+                                        Thread.sleep(5);
+                                        myRobot.keyPress(KeyEvent.VK_I);
+                                        Thread.sleep(5);
+                                        myRobot.keyRelease(KeyEvent.VK_I);
+                                        Thread.sleep(5);
+                                        Variant[] moveDown = new Variant[2];
+                                        moveDown[0] = new Variant(0);
+                                        moveDown[1] = new Variant(1);
+                                        Constant.getDm().invoke("MoveR", moveDown);
+                                        Thread.sleep(1);
+
+
+                                    }
+
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+
+
+                            }
+
+                        }
+
+
+                    }
+
+                }
+            }
+
+
+        }.start();
 
     }
 

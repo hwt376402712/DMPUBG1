@@ -2,14 +2,34 @@ package com;
 
 import com.jacob.activeX.ActiveXComponent;
 import com.jacob.com.Variant;
+import com.sun.jna.Library;
+import com.sun.jna.Pointer;
+import com.sun.jna.Structure;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Author: huangwentao
  * @Date: 2018/8/16 18:15
  */
 public class TestConstructor {
+    public interface CLibrary extends Library {
+        public static class CTest extends Structure{
+            public static class ByReference extends CTest implements Structure.ByReference{}
+            public int val;
+            @Override
+            protected List<String> getFieldOrder() {
+                // TODO Auto-generated method stub
+                List<String> a = new ArrayList<String>();
+                a.add("val");
+                return a;
+            }
+        }
+        void GetStructyinyong(CTest.ByReference yinyong);
+    }
+
 
     public TestConstructor() throws IOException {
 
@@ -25,18 +45,14 @@ public class TestConstructor {
             e.printStackTrace();
         }
 
+        CLibrary.CTest.ByReference yinyong = new CLibrary.CTest.ByReference();
+        Variant[] shubiao = new Variant[2];
+        shubiao[0] = new Variant(yinyong);
+        shubiao[1] = new Variant(yinyong);
+       int rsilt =  activeDm.invoke("GetCursorPos",shubiao).getInt();
+        System.out.println(yinyong.toString());
 
-        Variant[] p = new Variant[1];
-        p [0] = new Variant(80);
-        Constant.getDm().invoke("KeyDown", p );
 
-
-        try {
-            Thread.sleep(4000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        Constant.getDm().invoke("KeyUp", p );
 
 //        Variant[] shubiao = new Variant[5];
 //        shubiao[0] = new Variant(394378);
@@ -112,6 +128,12 @@ public class TestConstructor {
 //        activeDm.invoke("Capture", capture);
 
 
+
+    }
+
+    public void test(Integer x,Long y){
+        x = 5;
+        y = 4L;
 
     }
 }
