@@ -7,6 +7,8 @@ import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * @Author: huangwentao
@@ -18,14 +20,6 @@ public class Test {
 
 //        new TestConstructor();
 
-        while(true){
-            System.out.println(12312);
-            while(true){
-                System.out.println(888);
-
-            }
-
-        }
 
 
 

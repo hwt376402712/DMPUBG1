@@ -6,6 +6,7 @@ import com.KeyboardHook;
 import com.MouseHook;
 import com.alibaba.fastjson.JSON;
 import com.inter.IStartF10Listen;
+import com.ui.GameForm;
 import com.ui.MainForm;
 import com.util.HttpRequestUtil;
 
@@ -13,7 +14,10 @@ import javax.swing.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.Map;
+import java.util.TimeZone;
 
 /**
  * @Author: huangwentao
@@ -34,6 +38,10 @@ public class StartF10Listen implements IStartF10Listen {
             keyHookThread.start();
             Thread mouseHookThread = new Thread(mouseHook);
             mouseHookThread.start();
+
+            new GameForm();
+
+
         }
 
 
@@ -49,17 +57,22 @@ public class StartF10Listen implements IStartF10Listen {
             if (0 == (Integer) map.get("status")) {
                 JOptionPane.showMessageDialog(null, "用户名或密码错误！", "提示", JOptionPane.INFORMATION_MESSAGE);
 
-                System.exit(0);
+                MainForm.frame.setVisible(true);
+
+                return false;
             }
             else if(1 == (Integer) map.get("status")){
 
                 Long outTime = Long.valueOf(map.get("outTime").toString());
-                System.out.print(Constant.getDm().invoke("GetNetTime"));
+
                 if(outTime > System.currentTimeMillis()){
+
                     return true;
                 }
                 else{
                     JOptionPane.showMessageDialog(null, "账号已经过期，功能将无法使用，请尽快充值！", "提示", JOptionPane.ERROR_MESSAGE);
+
+                    return false;
                 }
             }
         }
@@ -104,6 +117,25 @@ public class StartF10Listen implements IStartF10Listen {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public void timeCount(long outTime){
+
+        while(true){
+
+            try {
+                Thread.sleep(1000);
+                TimeZone.setDefault(TimeZone.getTimeZone("GMT+8")); // 时区设置
+                URL url=new URL("http://www.bjtime.cn");//取得资源对象
+                URLConnection uc=url.openConnection();//生成连接对象
+                uc.connect(); //发出连接
+                long ld=uc.getDate();
+                System.out.println(ld);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         }
     }
 

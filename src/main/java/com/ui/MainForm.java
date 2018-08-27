@@ -38,7 +38,7 @@ public class MainForm extends JPanel {
 
 
         // 第二个标签下的JPanel
-        JPanel jpane3Second = new JPanel();
+        JPanel jpane3Second = new ChongzhiPanel();
         jTabbedpane.addTab(tabNames[i++], icon, jpane3Second, "third");// 加入第一个页面
         setLayout(new GridLayout(1, 1));
         add(jTabbedpane);

@@ -2,17 +2,14 @@ package com.ui;
 
 import com.inter.IStartF10Listen;
 import com.myloader.MyloaderConstruct;
+import com.util.HttpRequestUtil;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-/**
- * @Author: huangwentao
- * @Date: 2018/8/23 15:18
- */
-public class LoginPanel extends JPanel {
+public class ChongzhiPanel extends JPanel {
 
     private JLabel userLable;
 
@@ -25,7 +22,7 @@ public class LoginPanel extends JPanel {
     private JButton jButton;
 
 
-    public LoginPanel() {
+    public ChongzhiPanel() {
         setupUi();
     }
 
@@ -43,7 +40,7 @@ public class LoginPanel extends JPanel {
 
         passwordLable = new JLabel();
         passwordLable.setBounds(63, 47, 70, 30);
-        passwordLable.setText("密码:");
+        passwordLable.setText("卡密:");
         this.add(passwordLable);
 
         passwordField = new JPasswordField();
@@ -53,19 +50,23 @@ public class LoginPanel extends JPanel {
 
         jButton = new JButton();
         jButton.setBounds(126, 84, 60, 20);
-        jButton.setText("登录");
+        jButton.setText("充值");
         this.add(jButton);
 
         jButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                String res = HttpRequestUtil.get("http://111.231.249.197:8090/user/chongzhi?" +
+                        "username=" + textField.getText().toString() + "&code=" + new String(passwordField.getPassword()));
 
-                IStartF10Listen listen = MyloaderConstruct.getStartF10Listen();
-                listen.start(textField.getText().toString(), new String(passwordField.getPassword()));
+                JOptionPane.showMessageDialog(null, res, "提示", JOptionPane.INFORMATION_MESSAGE);
+
+
             }
         });
 
 
     }
+
 }
