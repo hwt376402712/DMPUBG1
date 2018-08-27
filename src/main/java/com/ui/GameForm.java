@@ -35,7 +35,7 @@ public class GameForm {
     public static volatile boolean M16Lianfa = false;
 
 
-    public GameForm() {
+    public GameForm(String username,String password) {
         JFrame frame = new JFrame("F10开/关");
         frame.setLayout(null);
         frame.setContentPane(getJpanel());
@@ -43,7 +43,7 @@ public class GameForm {
         frame.setDefaultCloseOperation(3);
 
         IStartF10Listen listen = MyloaderConstruct.getStartF10Listen();
-        listen.start();
+        listen.start(username,password);
 
         frame.setLocation(550,400);
         frame.setVisible(true);

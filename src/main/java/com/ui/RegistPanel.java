@@ -1,5 +1,8 @@
 package com.ui;
 
+import com.util.HttpRequestUtil;
+import org.apache.commons.codec.binary.StringUtils;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -9,7 +12,7 @@ import java.awt.event.ActionListener;
  * @Author: huangwentao
  * @Date: 2018/8/24 17:20
  */
-public class RegistPanel  extends JPanel {
+public class RegistPanel extends JPanel {
 
     private JLabel userLable;
 
@@ -22,7 +25,6 @@ public class RegistPanel  extends JPanel {
     private JLabel confirmPasswordLable;
 
     private JPasswordField confirmPasswordField;
-
 
 
     private JButton jButton;
@@ -73,7 +75,22 @@ public class RegistPanel  extends JPanel {
         jButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "注册成功！ ", "提示", JOptionPane.INFORMATION_MESSAGE);
+                if (null == textField.getText() || "".equals(textField.getText())) {
+                    JOptionPane.showMessageDialog(null, "用户名不能为空！ ", "提示", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    if (!new String(passwordField.getPassword()).equals( new String(confirmPasswordField.getPassword()))) {
+                        System.out.print(new String(passwordField.getPassword()).equals( new String(confirmPasswordField.getPassword())));
+                        JOptionPane.showMessageDialog(null, "密码不一致！ ", "提示", JOptionPane.ERROR_MESSAGE);
+                    } else {
+
+                       String res =  HttpRequestUtil.get("http://111.231.249.197:8090/user/regist?" +
+                                "username=" + textField.getText().toString() + "&password=" + passwordField.getText().toString());
+                        JOptionPane.showMessageDialog(null, res, "提示", JOptionPane.INFORMATION_MESSAGE);
+
+                    }
+
+                }
+
 
             }
         });

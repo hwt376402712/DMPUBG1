@@ -56,7 +56,7 @@ public class LoginPanel extends JPanel {
         jButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new GameForm();
+                new GameForm(textField.getText().toString(),new String(passwordField.getPassword()));
                 MainForm.frame.setVisible(false);
             }
         });

@@ -6,5 +6,5 @@ package com.inter;
  */
 public interface IStartF10Listen {
 
-    public void start();
+    public void start(String username,String password);
 }
