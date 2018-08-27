@@ -383,6 +383,13 @@ public class MouseHook implements Runnable {
                     unlock[2] = new Variant(0);
                     unlock[3] = new Variant(0);
 
+                    Variant[] shubiao = new Variant[2];
+                    shubiao[0] = new Variant(600);
+                    shubiao[1] = new Variant(0);
+
+                    Variant[] shubiao2 = new Variant[2];
+                    shubiao2[0] = new Variant(-600);
+                    shubiao2[1] = new Variant(0);
 
                     while (middleBtn) {
 
@@ -393,29 +400,23 @@ public class MouseHook implements Runnable {
                             if (System.currentTimeMillis() - middleAnxia > 100) {
 
 
-                                Variant[] shubiao = new Variant[2];
-                                shubiao[0] = new Variant(600);
-                                shubiao[1] = new Variant(0);
-
-                                Variant[] shubiao2 = new Variant[2];
-                                shubiao2[0] = new Variant(-600);
-                                shubiao2[1] = new Variant(0);
 
                                 try {
-                                    Constant.getDm().invoke("LeftDown");
                                     Constant.getDm().invoke("LockMouseRect", lock);
+                                    Constant.getDm().invoke("LeftDown");
+
                                     Thread.sleep(30);
                                     Constant.getDm().invoke("MoveR", shubiao);
 
 
                                     Thread.sleep(30);
-                                    Constant.getDm().invoke("LockMouseRect", unlock);
+
                                     Constant.getDm().invoke("LeftUp");
-                                    Constant.getDm().invoke("LockMouseRect", lock);
+
                                     Thread.sleep(30);
                                     Constant.getDm().invoke("MoveR", shubiao2);
                                     Thread.sleep(30);
-                                    Constant.getDm().invoke("LockMouseRect", unlock);
+
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
                                 }
@@ -427,7 +428,7 @@ public class MouseHook implements Runnable {
                         }
 
                     }
-
+                    Constant.getDm().invoke("LockMouseRect", unlock);
 
                 }
             }.start();
