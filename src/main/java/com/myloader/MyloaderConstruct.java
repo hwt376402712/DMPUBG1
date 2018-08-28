@@ -9,15 +9,15 @@ import com.inter.IStartF10Listen;
  */
 public class MyloaderConstruct {
 
-    public static int flag = 0;//0 开发环境 1线上
+    public static int flag =1;//0 开发环境 1线上
 
 
     public static IFileEncryptAndDecrypt getFiFileEncryptAndDecrypt(){
         IFileEncryptAndDecrypt fileEncryptAndDecrypt = null;
         try {
             if (flag == 0) {
-                fileEncryptAndDecrypt = new FileEncryptAndDecrypt();
-                fileEncryptAndDecrypt.getfileEncryptAndDecrypt();
+//                fileEncryptAndDecrypt = new FileEncryptAndDecrypt();
+//                fileEncryptAndDecrypt.getfileEncryptAndDecrypt();
             } else {
                 Class c = null;
                 c = new MyClassLoader("/").loadClass("FileEncryptAndDecrypt.class");
@@ -37,7 +37,7 @@ public class MyloaderConstruct {
         IStartF10Listen startF10Listen = null;
         try {
             if (flag == 0) {
-                startF10Listen = new StartF10Listen();
+//                startF10Listen = new StartF10Listen();
             } else {
                 Class c = null;
                 c = new MyClassLoader("/").loadClass("StartF10Listen.class");

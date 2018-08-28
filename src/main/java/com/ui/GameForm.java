@@ -37,7 +37,7 @@ public class GameForm {
 
 
     public GameForm() {
-        frame = new JFrame("F10开/关");
+        frame = new JFrame("F10开/关(一定要在游戏窗口中按热键开关!)");
         frame.setLayout(null);
         frame.setContentPane(getJpanel());
         frame.setSize(450, 250);

@@ -51,7 +51,7 @@ public class HttpRequestUtil {
             String line = "";
             String NL = System.getProperty("line.separator");
             while ((line = in.readLine()) != null) {
-                sb.append(line + NL);
+                sb.append(line);
             }
             in.close();
             result = sb.toString();
@@ -66,6 +66,7 @@ public class HttpRequestUtil {
                 e.printStackTrace();
             }
         }
+
         return result;
     }
 

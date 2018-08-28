@@ -16,6 +16,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.SimpleDateFormat;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -62,7 +63,11 @@ public class StartF10Listen implements IStartF10Listen {
                 return false;
             } else if (1 == (Integer) map.get("status")) {
 
+                Long outTime = (long)map.get("outTime");
+                SimpleDateFormat fomat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
+                String time = fomat.format(outTime);
+                JOptionPane.showMessageDialog(null, "登录成功！到期时间:"+time, "提示", JOptionPane.INFORMATION_MESSAGE);
                 return true;
 
 

@@ -1,6 +1,8 @@
 package com.ui;
 
+import com.Constant;
 import com.myloader.FileConstant;
+import com.util.HttpRequestUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -78,6 +80,11 @@ public class MainForm extends JPanel {
                 frame.setVisible(true);
 //                Image icon = Toolkit.getDefaultToolkit().getImage(new FileConstant().getPath("icon.bmp"));
 //                frame.setIconImage(icon);
+               String version =  HttpRequestUtil.get("http://111.231.249.197:8090/getVersion");
+               if(Integer.parseInt(version) > Constant.version){
+                   JOptionPane.showMessageDialog(null, "检测到有新版本！请联系客服或者在群文件下载，带来更好体验！", "提示", JOptionPane.INFORMATION_MESSAGE);
+               }
+
             }
         });
 

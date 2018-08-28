@@ -8,6 +8,8 @@ import com.jacob.activeX.ActiveXComponent;
  */
 public class Constant {
 
+    public static  final int version = 1;
+
     static ActiveXComponent activeDm ;
 
     static long currentPid = 0;
