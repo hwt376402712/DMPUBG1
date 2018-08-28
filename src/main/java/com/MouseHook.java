@@ -11,6 +11,7 @@ import com.ui.GameForm;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
+import java.util.concurrent.ExecutionException;
 
 /**
  * @Author: huangwentao
@@ -53,10 +54,10 @@ public class MouseHook implements Runnable {
     static volatile boolean Pjian = false;
 
     static Long leftAnxia = 0L;
-    static Long anxiaNow = null;
+    static Long anxiaNow = 0L;
 
-    static Long middleAnxia = null;
-    static Long middleAnxiaNow = null;
+    static Long middleAnxia = 0L;
+
 
     static Long leftAnxia2 = 0L;
 
@@ -120,6 +121,8 @@ public class MouseHook implements Runnable {
 
             MouseHook mouseHook = new MouseHook();
             mouseHook.addMouseHookListener(new MouseHookListener() {
+
+
                 //回调监听
                 @Override
                 public WinDef.LRESULT callback(int nCode, WinDef.WPARAM wParam, MouseHookStruct lParam) {
@@ -155,7 +158,7 @@ public class MouseHook implements Runnable {
 
 
                             case MouseHook.WM_LBUTTONUP:
-                                System.err.println("mouseLeft up left button up, x=" + lParam.pt.x + " y=" + lParam.pt.y);
+//                                System.err.println("mouseLeft up left button up, x=" + lParam.pt.x + " y=" + lParam.pt.y);
                                 if (!gunLianflag) {
                                     stopJianshe();
 
@@ -176,18 +179,19 @@ public class MouseHook implements Runnable {
                             case MouseHook.WM_RBUTTONUP:
 //                                System.err.println("mouseRight up right button up, x=" + lParam.pt.x + " y=" + lParam.pt.y);
                                 rightBtn = false;
-                                leftAnxia = null;
-                                anxiaNow = null;
+                                leftAnxia = 0L;
+                                anxiaNow = 0L;
                                 break;
                             case MouseHook.WM_MBUTTONDOWN:
                                 // 光速拾取物品
                                 middleBtn = true;
+                                middleAnxia = System.currentTimeMillis();
                                 quickPick();
                                 break;
                             case MouseHook.WM_MBUTTONUP:
 
-                                middleAnxia = null;
-                                middleAnxiaNow = null;
+                                middleAnxia = 0L;
+
                                 middleBtn = false;
                                 break;
                         }
@@ -214,15 +218,15 @@ public class MouseHook implements Runnable {
     static void stopMouseListen() {
         start = false;
         leftBtn = false;
-        leftAnxia = null;
-        anxiaNow = null;
+        leftAnxia = 0L;
+        anxiaNow = 0L;
     }
 
     static void startMouseListen() {
         start = true;
         leftBtn = false;
-        leftAnxia = null;
-        anxiaNow = null;
+        leftAnxia = 0L;
+        anxiaNow = 0L;
     }
 
 
@@ -230,7 +234,7 @@ public class MouseHook implements Runnable {
         if (GameForm.leftYaoshe) {
             new Thread() {
                 public void run() {
-                    if (!KeyboardHook.isInthePackage) {
+                    if (!KeyboardHook.isInthePackage && Constant.getDm().invoke("GetForegroundFocus").getInt() == Constant.getCurrentPid()) {
                         while (leftBtn && !rightBtn) {
 
                             // 左键按下间隔小于0.1秒，单点，不压枪
@@ -371,64 +375,64 @@ public class MouseHook implements Runnable {
             new Thread() {
                 @Override
                 public void run() {
-                    Variant[] lock = new Variant[4];
-                    lock[0] = new Variant(208);
-                    lock[1] = new Variant(0);
-                    lock[2] = new Variant(854);
-                    lock[3] = new Variant(1000);
+                    try {
+                        Variant[] lock = new Variant[4];
+                        lock[0] = new Variant(208);
+                        lock[1] = new Variant(0);
+                        lock[2] = new Variant(854);
+                        lock[3] = new Variant(1000);
 
-                    Variant[] unlock = new Variant[4];
-                    unlock[0] = new Variant(0);
-                    unlock[1] = new Variant(0);
-                    unlock[2] = new Variant(0);
-                    unlock[3] = new Variant(0);
+                        Variant[] unlock = new Variant[4];
+                        unlock[0] = new Variant(0);
+                        unlock[1] = new Variant(0);
+                        unlock[2] = new Variant(0);
+                        unlock[3] = new Variant(0);
 
-                    Variant[] shubiao = new Variant[2];
-                    shubiao[0] = new Variant(600);
-                    shubiao[1] = new Variant(0);
 
-                    Variant[] shubiao2 = new Variant[2];
-                    shubiao2[0] = new Variant(-600);
-                    shubiao2[1] = new Variant(0);
+                        Robot robot = new Robot();
+                        while (middleBtn) {
 
-                    while (middleBtn) {
 
-                        if (null == middleAnxia) {
-                            middleAnxia = System.currentTimeMillis();
-                        } else {
                             // 中键按下间隔小于0.1秒，单点
                             if (System.currentTimeMillis() - middleAnxia > 100) {
 
 
-
-                                try {
-                                    Constant.getDm().invoke("LockMouseRect", lock);
-                                    Constant.getDm().invoke("LeftDown");
-
-                                    Thread.sleep(30);
-                                    Constant.getDm().invoke("MoveR", shubiao);
+                                Constant.getDm().invoke("LockMouseRect", lock);
 
 
-                                    Thread.sleep(30);
+                                robot.mousePress(KeyEvent.BUTTON1_DOWN_MASK);
 
-                                    Constant.getDm().invoke("LeftUp");
+                                Thread.sleep(30);
+                                PointerInfo pinfo = MouseInfo.getPointerInfo();
+                                Point p = pinfo.getLocation();
+                                double mx = p.getX();
+                                double my = p.getY();
+                                robot.mouseMove((int) Math.ceil(mx) + 600, (int) Math.ceil(my));
 
-                                    Thread.sleep(30);
-                                    Constant.getDm().invoke("MoveR", shubiao2);
-                                    Thread.sleep(30);
 
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
+                                Thread.sleep(30);
+
+                                robot.mouseRelease(KeyEvent.BUTTON1_DOWN_MASK);
+
+                                Thread.sleep(30);
+                                PointerInfo pinfo1 = MouseInfo.getPointerInfo();
+                                Point p1 = pinfo1.getLocation();
+                                double mx1 = p1.getX();
+                                double my1 = p1.getY();
+                                robot.mouseMove((int) Math.ceil(mx - 600), (int) Math.ceil(my));
+                                Thread.sleep(30);
 
 
                             }
 
 
                         }
+                        Constant.getDm().invoke("LockMouseRect", unlock);
+
+                    } catch (Exception e) {
 
                     }
-                    Constant.getDm().invoke("LockMouseRect", unlock);
+
 
                 }
             }.start();
