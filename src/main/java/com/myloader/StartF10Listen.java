@@ -60,20 +60,16 @@ public class StartF10Listen implements IStartF10Listen {
                 MainForm.frame.setVisible(true);
 
                 return false;
-            }
-            else if(1 == (Integer) map.get("status")){
+            } else if (1 == (Integer) map.get("status")) {
 
-                Long outTime = Long.valueOf(map.get("outTime").toString());
 
-                if(outTime > System.currentTimeMillis()){
+                return true;
 
-                    return true;
-                }
-                else{
-                    JOptionPane.showMessageDialog(null, "账号已经过期，功能将无法使用，请尽快充值！", "提示", JOptionPane.ERROR_MESSAGE);
 
-                    return false;
-                }
+            } else if (2 == (Integer) map.get("status")) {
+                JOptionPane.showMessageDialog(null, "账号已经过期，功能将无法使用，请尽快充值！", "提示", JOptionPane.ERROR_MESSAGE);
+
+                return false;
             }
         }
 
@@ -120,17 +116,17 @@ public class StartF10Listen implements IStartF10Listen {
         }
     }
 
-    public void timeCount(long outTime){
+    public void timeCount(long outTime) {
 
-        while(true){
+        while (true) {
 
             try {
                 Thread.sleep(1000);
                 TimeZone.setDefault(TimeZone.getTimeZone("GMT+8")); // 时区设置
-                URL url=new URL("http://www.bjtime.cn");//取得资源对象
-                URLConnection uc=url.openConnection();//生成连接对象
+                URL url = new URL("http://www.bjtime.cn");//取得资源对象
+                URLConnection uc = url.openConnection();//生成连接对象
                 uc.connect(); //发出连接
-                long ld=uc.getDate();
+                long ld = uc.getDate();
                 System.out.println(ld);
             } catch (Exception e) {
                 e.printStackTrace();

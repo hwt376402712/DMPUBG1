@@ -56,7 +56,7 @@ public class KeyboardHook implements Runnable {
                         Constant.setCurrentPid(Constant.getDm().invoke("GetForegroundFocus").getInt());
                         MouseHook.startMouseListen();
 
-
+                        java.awt.Toolkit.getDefaultToolkit().beep();
                     } else {
                         GameForm.jLabel.setText("已关闭");
                         MouseHook.stopMouseListen();
