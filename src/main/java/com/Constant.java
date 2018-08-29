@@ -8,27 +8,26 @@ import com.jacob.activeX.ActiveXComponent;
  */
 public class Constant {
 
-    public static  final int version = 1;
+    public static final int version = 3;
 
-    static ActiveXComponent activeDm ;
+    static ActiveXComponent activeDm;
 
-    static long currentPid = 0;
+    static Long currentPid = null;
 
     public static ActiveXComponent getDm() {
-        if(null == activeDm){
+        if (null == activeDm) {
             activeDm = new ActiveXComponent("dm.dmsoft");
             return activeDm;
-        }
-        else{
+        } else {
             return activeDm;
         }
     }
 
-    public static long getCurrentPid() {
+    public static Long getCurrentPid() {
         return currentPid;
     }
 
-    public static void setCurrentPid(long currentPid) {
+    public static void setCurrentPid(Long currentPid) {
         Constant.currentPid = currentPid;
     }
 }

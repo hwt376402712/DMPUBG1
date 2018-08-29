@@ -164,7 +164,7 @@ public class MouseHook implements Runnable {
 
                                     leftBtn = false;
                                     leftAnxia = 0L;
-                                    anxiaNow = null;
+                                    anxiaNow = 0L;
                                     leftAnxia2 = 0L;
                                 } else {
                                     gunLianflag = false;
@@ -234,7 +234,7 @@ public class MouseHook implements Runnable {
         if (GameForm.leftYaoshe) {
             new Thread() {
                 public void run() {
-                    if (!KeyboardHook.isInthePackage && Constant.getDm().invoke("GetForegroundFocus").getInt() == Constant.getCurrentPid()) {
+                    if (!KeyboardHook.isInthePackage && null != Constant.getCurrentPid() && Constant.getDm().invoke("GetForegroundFocus").getInt() == Constant.getCurrentPid()) {
                         while (leftBtn && !rightBtn) {
 
                             // 左键按下间隔小于0.1秒，单点，不压枪
@@ -244,6 +244,7 @@ public class MouseHook implements Runnable {
                                     Robot myRobot = new Robot();
 
                                     myRobot.keyPress(KeyEvent.VK_P);
+                                    System.out.print("按下P");
                                     Pjian = true;
                                     break;
                                 } catch (Exception e) {
@@ -270,6 +271,7 @@ public class MouseHook implements Runnable {
                     Robot myRobot = new Robot();
 
                     myRobot.keyRelease(KeyEvent.VK_P);
+                    System.out.print("弹起P");
                     Pjian = false;
                 }
 
@@ -292,14 +294,12 @@ public class MouseHook implements Runnable {
                 shubiao[1] = new Variant(fps);
                 System.err.println("当前FPS：" + fps + " 波动" + fpsRise);
 
-                    while (leftBtn) {
+                while (leftBtn) {
 
-                        // 左键按下间隔小于0.1秒，单点，不压枪
-                        if (System.currentTimeMillis() - leftAnxia > 100) {
-                            if (ifFire()) {
-                            if (null == anxiaNow) {
-                                anxiaNow = System.currentTimeMillis();
-                            } else {
+                    // 左键按下间隔小于0.1秒，单点，不压枪
+                    if (System.currentTimeMillis() - leftAnxia > 100) {
+                        if (ifFire()) {
+                            while (leftBtn) {
                                 // 开枪的后半部分抖动递增，需要波动计算
                                 if (System.currentTimeMillis() - anxiaNow > 30) {
                                     if (System.currentTimeMillis() - leftAnxia < 700) {
@@ -315,6 +315,8 @@ public class MouseHook implements Runnable {
                                     anxiaNow = System.currentTimeMillis();
                                 }
                             }
+
+
 
 
                         }
@@ -333,7 +335,7 @@ public class MouseHook implements Runnable {
 
     // 判断是否开始压枪,在背包或者存在准心得情况下不压枪
     private boolean ifFire() {
-        if (Constant.getDm().invoke("GetForegroundFocus").getInt() == Constant.getCurrentPid()) {
+        if (null != Constant.getCurrentPid() && Constant.getDm().invoke("GetForegroundFocus").getInt() == Constant.getCurrentPid()) {
             if (KeyboardHook.isInthePackage) {
                 return false;
             } else {
@@ -378,7 +380,7 @@ public class MouseHook implements Runnable {
                 public void run() {
                     try {
                         Variant[] lock = new Variant[4];
-                        lock[0] = new Variant(308);
+                        lock[0] = new Variant(208);
                         lock[1] = new Variant(0);
                         lock[2] = new Variant(854);
                         lock[3] = new Variant(1000);
@@ -420,7 +422,7 @@ public class MouseHook implements Runnable {
                                 Point p1 = pinfo1.getLocation();
                                 double mx1 = p1.getX();
                                 double my1 = p1.getY();
-                                robot.mouseMove((int) Math.ceil(mx - 600), (int) Math.ceil(my));
+                                robot.mouseMove((int) Math.ceil(mx1 - 600), (int) Math.ceil(my1));
                                 Thread.sleep(30);
 
 

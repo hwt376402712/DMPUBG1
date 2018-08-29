@@ -34,6 +34,8 @@ public class KeyboardHook implements Runnable {
     public static volatile String zhunxinColor = null;//准心得颜色，来判断是否在腰射或者肩射
 
 
+
+
     //钩子回调函数
     private WinUser.LowLevelKeyboardProc keyboardProc = new WinUser.LowLevelKeyboardProc() {
         public WinDef.LRESULT callback(int nCode, WinDef.WPARAM wParam, WinUser.KBDLLHOOKSTRUCT event) {
@@ -53,7 +55,7 @@ public class KeyboardHook implements Runnable {
                         var[4] = new Variant(0);
 
                         long i = Constant.getDm().invoke("BindWindow", var).getInt();
-                        Constant.setCurrentPid(Constant.getDm().invoke("GetForegroundFocus").getInt());
+                        Constant.setCurrentPid(Long.valueOf(Constant.getDm().invoke("GetForegroundFocus").getInt()));
                         MouseHook.startMouseListen();
 
                         java.awt.Toolkit.getDefaultToolkit().beep();
@@ -62,12 +64,12 @@ public class KeyboardHook implements Runnable {
                         MouseHook.stopMouseListen();
                         // 解绑
                         long dm = Constant.getDm().invoke("UnBindWindow").getInt();
-                        Constant.setCurrentPid(0);
+                        Constant.setCurrentPid(null);
 
                     }
                 } else {
                     // 是否在绑定窗口内
-                    if (Constant.getDm().invoke("GetForegroundFocus").getInt() == Constant.getCurrentPid()) {
+                    if (null != Constant.getCurrentPid() && Constant.getDm().invoke("GetForegroundFocus").getInt() == Constant.getCurrentPid()) {
 
                         String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 //                        System.out.println(time + " KEY: " + event.vkCode + "---" + wParam.intValue());
@@ -167,6 +169,7 @@ public class KeyboardHook implements Runnable {
 
 
                         }
+
                         // 按下ESC退出
 //                if(event.vkCode==27) KeyboardHook.this.setHookOff();
                     }
@@ -431,10 +434,10 @@ public class KeyboardHook implements Runnable {
             if ((null == gun1result || "".equals(gun1result)) && (null == gun2result || "".equals(gun2result))) {
                 CurrentBody.currentGun = 0;
             }
-            if ((null == gun1result || "".equals(gun1result)) && (null != gun2result || !"".equals(gun2result))) {
+            if ((null == gun1result || "".equals(gun1result)) && (null != gun2result && !"".equals(gun2result))) {
                 CurrentBody.currentGun = 2;
             }
-            if ((null == gun2result || "".equals(gun2result)) && (null != gun1result || !"".equals(gun1result))) {
+            if ((null == gun2result || "".equals(gun2result)) && (null != gun1result && !"".equals(gun1result))) {
                 CurrentBody.currentGun = 1;
             }
 
@@ -472,7 +475,7 @@ public class KeyboardHook implements Runnable {
                         checkGun();
 
                         try {
-                            Thread.sleep(200);
+                            Thread.sleep(100);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
