@@ -25,12 +25,9 @@ public class VectorGun {
         headlist.add(GunFpsEnum.CFQXYAN);
         headlist.add(GunFpsEnum.CFQXYIN);
 
-        wolist.add(GunFpsEnum.ZJWB);
         wolist.add(GunFpsEnum.CZWB);
         wolist.add(GunFpsEnum.BJSWB);
         wolist.add(GunFpsEnum.MZWB);
-
-
         wolist.add(GunFpsEnum.BJSWB);
 
 

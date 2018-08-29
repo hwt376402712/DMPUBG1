@@ -19,7 +19,9 @@ public class UZIGun {
         List<GunFpsEnum> wolist = new ArrayList<>();
         List<GunFpsEnum> taillist = new ArrayList<>();
 
-
+        headlist.add(GunFpsEnum.CFQBCQ);
+        headlist.add(GunFpsEnum.CFQXYAN);
+        headlist.add(GunFpsEnum.CFQXYIN);
 
         new GunFpsCalculation(gunIndex, jimiaoFps,"UZI", miaoJinglist, headlist, wolist, taillist).start();
     }

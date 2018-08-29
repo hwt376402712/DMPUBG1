@@ -22,6 +22,7 @@ public class ScarGun {
         miaoJinglist.add(GunFpsEnum.HD);
         miaoJinglist.add(GunFpsEnum.QUANXI);
         miaoJinglist.add(GunFpsEnum.EB);
+        miaoJinglist.add(GunFpsEnum.SANB);
         miaoJinglist.add(GunFpsEnum.SIBEI);
 
         headlist.add(GunFpsEnum.BQBCQ);
@@ -30,7 +31,7 @@ public class ScarGun {
 
         wolist.add(GunFpsEnum.ZJWB);
         wolist.add(GunFpsEnum.CZWB);
-
+        wolist.add(GunFpsEnum.MZWB);
         wolist.add(GunFpsEnum.BJSWB);
         new GunFpsCalculation(index, jimiaoFps,"SCAR", miaoJinglist, headlist, wolist, taillist).start();
     }
