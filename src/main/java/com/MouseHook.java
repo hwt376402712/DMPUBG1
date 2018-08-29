@@ -291,12 +291,12 @@ public class MouseHook implements Runnable {
                 shubiao[0] = new Variant(0);
                 shubiao[1] = new Variant(fps);
                 System.err.println("当前FPS：" + fps + " 波动" + fpsRise);
-                if (ifFire()) {
+
                     while (leftBtn) {
 
                         // 左键按下间隔小于0.1秒，单点，不压枪
                         if (System.currentTimeMillis() - leftAnxia > 100) {
-
+                            if (ifFire()) {
                             if (null == anxiaNow) {
                                 anxiaNow = System.currentTimeMillis();
                             } else {
@@ -355,6 +355,7 @@ public class MouseHook implements Runnable {
                     if (rgb1.equals(rgb2) && rgb2.equals(rgb3) && rgb3.equals(rgb4) && rgb4.equals(KeyboardHook.zhunxinColor)) {
                         return false;
                     } else {
+                        System.out.println("沒檢測到準心");
                         return true;
                     }
 
@@ -377,7 +378,7 @@ public class MouseHook implements Runnable {
                 public void run() {
                     try {
                         Variant[] lock = new Variant[4];
-                        lock[0] = new Variant(208);
+                        lock[0] = new Variant(308);
                         lock[1] = new Variant(0);
                         lock[2] = new Variant(854);
                         lock[3] = new Variant(1000);
@@ -460,7 +461,7 @@ public class MouseHook implements Runnable {
                                         Constant.getDm().invoke("LeftUp");
                                         Robot myRobot = new Robot();
                                         while (leftBtn) {
-                                            for (int i = 0; i <= 6; i++) {
+                                            for (int i = 0; i <= 3; i++) {
                                                 myRobot.keyPress(KeyEvent.VK_I);
                                                 Thread.sleep(2);
                                                 myRobot.keyRelease(KeyEvent.VK_I);
@@ -469,7 +470,7 @@ public class MouseHook implements Runnable {
 
                                             Variant[] moveDown = new Variant[2];
                                             moveDown[0] = new Variant(0);
-                                            moveDown[1] = new Variant(1);
+                                            moveDown[1] = new Variant(2);
                                             Constant.getDm().invoke("MoveR", moveDown);
                                             Thread.sleep(1);
 

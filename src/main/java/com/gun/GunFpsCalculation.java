@@ -160,18 +160,7 @@ public class GunFpsCalculation extends Thread {
 
         }
 
-        //设置当前枪的编码，枪名先设置机瞄,默认抖动
-        if (gunIndex == 1) {
-            CurrentBody.gun1Fps = fps;
-            CurrentBody.gun1FpsRise = new BigDecimal(1.4);
-            CurrentBody.gun1code = Joiner.on("/").join(resultCode);
-            CurrentBody.gun1Name = gunProperty;
-        } else {
-            CurrentBody.gun2Fps = fps;
-            CurrentBody.gun2FpsRise = new BigDecimal(1.4);
-            CurrentBody.gun2code = Joiner.on("/").join(resultCode);
-            CurrentBody.gun2Name = gunProperty;
-        }
+
 
 
         if (ifCheckPeijian) {
@@ -184,6 +173,18 @@ public class GunFpsCalculation extends Thread {
                 properties.load(in);
                 Set<Map.Entry<Object, Object>> entrySet = properties.entrySet();//返回的属性键值对实体
                 boolean ifDict = false;
+                //设置当前枪的编码，枪名先设置机瞄,默认抖动
+                if (gunIndex == 1) {
+                    CurrentBody.gun1Fps = fps;
+                    CurrentBody.gun1FpsRise = new BigDecimal(1.4);
+                    CurrentBody.gun1code = Joiner.on("/").join(resultCode);
+                    CurrentBody.gun1Name = gunProperty;
+                } else {
+                    CurrentBody.gun2Fps = fps;
+                    CurrentBody.gun2FpsRise = new BigDecimal(1.4);
+                    CurrentBody.gun2code = Joiner.on("/").join(resultCode);
+                    CurrentBody.gun2Name = gunProperty;
+                }
                 for (Map.Entry<Object, Object> entry : entrySet) {
 
                     String value = fileEncryptAndDecrypt.decode(entry.getValue().toString());
@@ -219,6 +220,18 @@ public class GunFpsCalculation extends Thread {
                     InputStream in = new FileConstant().getInputStram(gunProperty + ".properties");
                     properties.load(in);
                     Set<Map.Entry<Object, Object>> entrySet = properties.entrySet();//返回的属性键值对实体
+                    //设置当前枪的编码，枪名先设置机瞄,默认抖动
+                    if (gunIndex == 1) {
+                        CurrentBody.gun1Fps = fps;
+                        CurrentBody.gun1FpsRise = new BigDecimal(1.4);
+                        CurrentBody.gun1code = Joiner.on("/").join(resultCode);
+                        CurrentBody.gun1Name = gunProperty;
+                    } else {
+                        CurrentBody.gun2Fps = fps;
+                        CurrentBody.gun2FpsRise = new BigDecimal(1.4);
+                        CurrentBody.gun2code = Joiner.on("/").join(resultCode);
+                        CurrentBody.gun2Name = gunProperty;
+                    }
                     for (Map.Entry<Object, Object> entry : entrySet) {
                         String value = fileEncryptAndDecrypt.decode(entry.getValue().toString());
                         if (entry.getKey().equals(code)) {

@@ -105,13 +105,13 @@ public class StartF10Listen implements IStartF10Listen {
 
     public void createResourceFile() {
         //运行前检查资源目录是否存在
-        File file = new File("D:\\pubgResources");
+        File file = new File("C:\\pubgResources");
         if (!file.exists()) {
             try {
                 file.mkdir();
                 for (String fileName : FileList.filName) {
                     InputStream resource = this.getClass().getClassLoader().getResourceAsStream(fileName);
-                    copyFile(resource, "D:\\pubgResources\\" + fileName);
+                    copyFile(resource, "C:\\pubgResources\\" + fileName);
                 }
 
 

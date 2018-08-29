@@ -13,7 +13,7 @@ public class FileConstant {
         if (MyloaderConstruct.flag == 0) {
             return new File(this.getClass().getClassLoader().getResource(name).getPath()).getPath();
         } else {
-            return new File("D:\\pubgResources\\" + name).getPath();
+            return new File("C:\\pubgResources\\" + name).getPath();
         }
 
 
@@ -24,7 +24,7 @@ public class FileConstant {
             if (MyloaderConstruct.flag == 0) {
                 return new FileInputStream(new File(this.getClass().getClassLoader().getResource(name).getPath()));
             } else {
-                return new FileInputStream(new File("D:\\pubgResources\\" + name));
+                return new FileInputStream(new File("C:\\pubgResources\\" + name));
             }
         } catch (FileNotFoundException e) {
 
